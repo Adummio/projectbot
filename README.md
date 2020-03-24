@@ -1,2 +1,0 @@
-# projectbot
-PROJECT BOT
