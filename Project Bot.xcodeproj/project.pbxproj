@@ -17,6 +17,7 @@
 		650A3649242A658500AB43BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 650A3647242A658500AB43BE /* LaunchScreen.storyboard */; };
 		650A3654242A658600AB43BE /* Project_BotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A3653242A658600AB43BE /* Project_BotTests.swift */; };
 		650A365F242A658600AB43BE /* Project_BotUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A365E242A658600AB43BE /* Project_BotUITests.swift */; };
+		65DA693A242A736B00BAAFE2 /* AnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6939242A736B00BAAFE2 /* AnalogJoystick.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		650A365A242A658600AB43BE /* Project BotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project BotUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		650A365E242A658600AB43BE /* Project_BotUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_BotUITests.swift; sourceTree = "<group>"; };
 		650A3660242A658600AB43BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65DA6939242A736B00BAAFE2 /* AnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogJoystick.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				650A3645242A658500AB43BE /* Assets.xcassets */,
 				650A3647242A658500AB43BE /* LaunchScreen.storyboard */,
 				650A364A242A658500AB43BE /* Info.plist */,
+				65DA6939242A736B00BAAFE2 /* AnalogJoystick.swift */,
 			);
 			path = "Project Bot";
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				650A363F242A658500AB43BE /* GameScene.swift in Sources */,
+				65DA693A242A736B00BAAFE2 /* AnalogJoystick.swift in Sources */,
 				650A3641242A658500AB43BE /* GameViewController.swift in Sources */,
 				650A3639242A658500AB43BE /* AppDelegate.swift in Sources */,
 			);
