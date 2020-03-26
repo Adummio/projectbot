@@ -12,22 +12,22 @@ import GameplayKit
 class GameScene: SKScene {
     
     var mainCharacter: SKSpriteNode?
-    let moveJoystick = 🕹(withDiameter: 100)
+    let joystick = 🕹(withDiameter: 100)
     
     override func didMove(to view: SKView) {
         
 //        let image = UIImage(named: "")
-        moveJoystick.handleImage = nil
+        joystick.handleImage = nil
 //        let substrateImage = UIImage(named: "")
-        moveJoystick.baseImage = nil
+        joystick.baseImage = nil
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         let moveJoystickHiddenArea = AnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 0, width: frame.midX, height: frame.height))
-        moveJoystickHiddenArea.joystick = moveJoystick
-        moveJoystick.isMoveable = true
+        moveJoystickHiddenArea.joystick = joystick
+        joystick.isMoveable = true
         addChild(moveJoystickHiddenArea)
         
-        moveJoystick.on(.begin) { [unowned self] _ in
+        joystick.on(.begin) { [unowned self] _ in
             let actions = [
                 SKAction.scale(to: 0.5, duration: 0.5),
                 SKAction.scale(to: 1, duration: 0.5)
@@ -36,7 +36,7 @@ class GameScene: SKScene {
             self.mainCharacter?.run(SKAction.sequence(actions))
         }
         
-        moveJoystick.on(.move) { [unowned self] joystick in
+        joystick.on(.move) { [unowned self] joystick in
             guard let mainCharacter = self.mainCharacter else {
                 return
             }
@@ -45,9 +45,11 @@ class GameScene: SKScene {
             let speed = CGFloat(0.12)
             
             mainCharacter.position = CGPoint(x: mainCharacter.position.x + (pVelocity.x * speed), y: mainCharacter.position.y + (pVelocity.y * speed))
+            
+            mainCharacter.zRotation = joystick.angular
         }
         
-        moveJoystick.on(.end) { [unowned self] _ in
+        joystick.on(.end) { [unowned self] _ in
             let actions = [
                 SKAction.scale(to: 1.5, duration: 0.5),
                 SKAction.scale(to: 1, duration: 0.5)
@@ -79,7 +81,12 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
-        
+//        if touches.count == 2{
+//            let actions = [
+//                let vector = CGVector(
+//                SKAction.move(by: <#T##CGVector#>, duration: <#T##TimeInterval#>)
+//            ]
+//        }
     }
 
 //    var entities = [GKEntity]()
