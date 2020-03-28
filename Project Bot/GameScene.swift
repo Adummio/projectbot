@@ -10,68 +10,71 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+    // Camera
     var cameraNode = SKCameraNode()
     
-    var mainCharacter : SKSpriteNode?
+    // Player & Movement
+    var player : SKSpriteNode?
+    let joystick = 🕹(withDiameter: 300)
+    
+    // Enemies
     var enemies = [SKSpriteNode]()
     var enemy : SKSpriteNode?
     let enemySpeed:CGFloat = 3.0
-    let joystick = 🕹(withDiameter: 300)
-    var arena: SKShapeNode?
-    let resultLabel = SKLabelNode(fontNamed:"Chalkduster")
+    
+    // Labels
+    let resultLabel = SKLabelNode(fontNamed:"Helvetica")
 
-    let arenaRadius: CGFloat = 200.0
+    // Arena
+    var arena: SKShapeNode?
+    let arenaRadius: CGFloat = 500.0
     var circle = SKShapeNode()
     
+    // Animations
+    var fallDown = SKAction.scaleX(to: 0, y: 0, duration: 1)
+    
+    // Others
+    let playableRect: CGRect
+    var cameraRect: CGRect {
+        let x = cameraNode.position.x - size.width/2 + (size.width - playableRect.width)/2
+        let y = cameraNode.position.y - size.height/2 + (size.height - playableRect.height)/2
+        return CGRect(x:x ,y:y ,width: playableRect.width, height: playableRect.height)
+    }
+    
+    override init(size: CGSize) {
+        let maxAspectRatio:CGFloat = 9.0/16.0
+        let playableHeight = size.width / maxAspectRatio
+        let playableMargin = (size.height-playableHeight)/2.0
+        playableRect = CGRect(x: 0, y: playableMargin, width: size.width, height: playableHeight)
+        super.init(size:size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMove(to view: SKView) {
-        
-        self.camera = cameraNode
-        
-        let background = SKSpriteNode(imageNamed: "bg")
-        background.zPosition = -1
-        background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        background.position = CGPoint(x: size.width/2, y: size.height/2)
-        addChild(background)
-        
-        resultLabel.isHidden = true
-        resultLabel.fontSize = 20
-        resultLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        resultLabel.fontColor = UIColor.black
-        addChild(resultLabel)
+      
+        addChild(cameraNode)
+        camera = cameraNode
+        cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
 
-        //        let image = UIImage(named: "")
-        joystick.handleImage = nil
-        //        let substrateImage = UIImage(named: "")
-        joystick.baseImage = nil
+        view.isMultipleTouchEnabled = true
+        addBackground()
+        addResultLabel()
+        addJoystick()
+        addPlayer(atPosition: CGPoint(x: frame.midX, y: frame.midY))
+        addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
+        addCircle()
+        debugPlayableArea()
         
-        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-        let moveJoystickHiddenArea = AnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 0, width: frame.width, height: frame.midY/2))
-        moveJoystickHiddenArea.zPosition = 1
-        moveJoystickHiddenArea.joystick = joystick
-        joystick.isMoveable = true
-        addChild(moveJoystickHiddenArea)
-        
-        //        joystick.on(.begin) { [unowned self] _ in
-        //            let actions = [
-        //                SKAction.scale(to: 0.5, duration: 0.5),
-        //                SKAction.scale(to: 1, duration: 0.5)
-        //            ]
-        //
-        //            self.mainCharacter?.run(SKAction.sequence(actions))
-        //        }
-        
-        joystick.on(.move) { [unowned self] joystick in
-            guard let mainCharacter = self.mainCharacter else {
-                return
-            }
-            
-            let pVelocity = joystick.velocity;
-            let speed = CGFloat(0.12)
-            
-            mainCharacter.position = CGPoint(x: mainCharacter.position.x + (pVelocity.x * speed), y: mainCharacter.position.y + (pVelocity.y * speed))
-            
-            mainCharacter.zRotation = joystick.angular
-        }
+         joystick.on(.move) { [unowned self] joystick in
+                   guard let player = self.player else { return }
+                   let pVelocity = joystick.velocity;
+                   let speed = CGFloat(0.12)
+                   player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
+                   player.zRotation = joystick.angular
+               }
         
         //        joystick.on(.end) { [unowned self] _ in
         //            let actions = [
@@ -82,19 +85,46 @@ class GameScene: SKScene {
         //            self.mainCharacter?.run(SKAction.sequence(actions))
         //        }
         
-        addMainCharacter(atPosition: CGPoint(x: frame.midX, y: frame.midY))
-        addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
-        addCircle()
-        
-        view.isMultipleTouchEnabled = true
     }
     
+    func debugPlayableArea() {
+        let shape = SKShapeNode(rect: playableRect)
+        shape.strokeColor = SKColor.red
+        shape.lineWidth = 4.0
+        addChild(shape)
+    }
     
-    func addMainCharacter(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "mainChar") else {
-            return
-        }
-        
+    func addJoystick() {
+        // let image = UIImage(named: "")
+        joystick.handleImage = nil
+        // let substrateImage = UIImage(named: "")
+        joystick.baseImage = nil
+        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        let moveJoystickHiddenArea = AnalogJoystickHiddenArea(rect: CGRect(x: 0 - frame.midX, y: 0 - frame.midY, width: frame.size.width, height: frame.size.height))
+        moveJoystickHiddenArea.zPosition = 1
+        moveJoystickHiddenArea.joystick = joystick
+        joystick.isMoveable = true
+        camera!.addChild(moveJoystickHiddenArea)
+    }
+    
+    func addBackground() {
+        let background = SKSpriteNode(imageNamed: "bg")
+        background.zPosition = -1
+        background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        addChild(background)
+    }
+    
+    func addResultLabel() {
+        resultLabel.isHidden = true
+        resultLabel.fontSize = 50
+        resultLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        resultLabel.fontColor = UIColor.black
+        addChild(resultLabel)
+    }
+    
+    func addPlayer(atPosition position: CGPoint) {
+        guard let image = UIImage(named: "mainChar") else { return }
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
@@ -102,14 +132,11 @@ class GameScene: SKScene {
         node.position = position
         node.zPosition = 1
         addChild(node)
-        mainCharacter = node
+        player = node
     }
     
     func addEnemy(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "enemy") else {
-            return
-        }
-        
+        guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
@@ -133,67 +160,24 @@ class GameScene: SKScene {
         arena = circle
     }
     
-    //    func addCircleObstacle() {
-    //      // 1
-    //      let path = UIBezierPath()
-    //      // 2
-    //      path.move(to: CGPoint(x: 0, y: -200))
-    //      // 3
-    //      path.addLine(to: CGPoint(x: 0, y: -160))
-    //      // 4
-    //      path.addArc(withCenter: CGPoint.zero,
-    //                  radius: 160,
-    //                  startAngle: CGFloat(3.0 * Double.pi/2),
-    //                  endAngle: CGFloat(0),
-    //                  clockwise: true)
-    //      // 5
-    //      path.addLine(to: CGPoint(x: 200, y: 0))
-    //      path.addArc(withCenter: CGPoint.zero,
-    //                  radius: 200,
-    //                  startAngle: CGFloat(0.0),
-    //                  endAngle: CGFloat(3.0 * Double.pi/2),
-    //                  clockwise: false)
-    //
-    //
-    //        let section = SKShapeNode(path: path.cgPath)
-    //        section.position = CGPoint(x: size.width/2, y: size.height/2)
-    //        section.fillColor = .yellow
-    //        section.strokeColor = .yellow
-    //        addChild(section)
-    //    }
-    
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        /* Called when a touch begins */
-        
-        
-    }
-    
  
     override func update(_ currentTime: TimeInterval) {
         
-        
-        let location = mainCharacter?.position
-        
-        cameraNode.position = mainCharacter!.position
+        let location = player?.position
+        camera!.position = player!.position
         
         if circle.contains(location!) {
-            mainCharacter!.isHidden = false
+            player!.isHidden = false
         } else {
             self.resultLabel.isHidden = false
-            resultLabel.text = "Porco dio you lost !"
-            mainCharacter!.isHidden = true
-            mainCharacter?.removeFromParent()
+            resultLabel.text = "You Lost"
+            player?.run(fallDown, completion: {() -> Void in
+                self.scene!.view!.isPaused = true
+                self.player!.isHidden = true
+                self.player?.removeFromParent()
+            })
+            
         }
-        //        let arenaLocation = arena?.position
-        //
-        //        let xDist = (location?.x ?? 0) - (arenaLocation?.x ?? 0)
-        //        let yDist = (location?.y ?? 0) - (arenaLocation?.y ?? 0)
-        //        let distance = sqrt(xDist*xDist + yDist*yDist)
-        //
-        //        if distance < arenaRadius{
-        //            print("die")
-        //        }
         
         for enemy in enemies {
             //Aim
@@ -214,9 +198,12 @@ class GameScene: SKScene {
                 enemy.isHidden = false
             } else {
                 self.resultLabel.isHidden = false
-                resultLabel.text = "Porco dio you won !"
-                enemy.isHidden = true
-                enemy.removeFromParent()
+                resultLabel.text = "You Won"
+                enemy.run(fallDown, completion: {() -> Void in
+                    self.scene!.view!.isPaused = true
+                    self.enemy!.isHidden = true
+                    self.enemy!.removeFromParent()
+                })
             }
         }
     }
