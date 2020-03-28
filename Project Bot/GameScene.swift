@@ -15,13 +15,15 @@ class GameScene: SKScene {
     var enemies = [SKSpriteNode]()
     var enemy : SKSpriteNode?
     let joystick = 🕹(withDiameter: 100)
+    var arena: SKShapeNode?
+    let arenaRadius: CGFloat = 200.0
     
     let enemySpeed:CGFloat = 3.0
     
     override func didMove(to view: SKView) {
         
         let background = SKSpriteNode(imageNamed: "bg")
-        background.zPosition = 0
+        background.zPosition = -1
         background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(background)
@@ -71,6 +73,7 @@ class GameScene: SKScene {
         
         addMainCharacter(atPosition: CGPoint(x: frame.midX, y: frame.midY))
         addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.maxY-100))
+        addCircle()
         
         view.isMultipleTouchEnabled = true
     }
@@ -108,7 +111,45 @@ class GameScene: SKScene {
         
     }
     
+    func addCircle(){
+        let circle = SKShapeNode(circleOfRadius: arenaRadius)
+        circle.position = CGPoint(x: frame.midX, y: frame.midY)
+        circle.fillColor = .yellow
+        circle.glowWidth = 1.0
+        circle.strokeColor = .black
+        circle.zPosition = 0
+        addChild(circle)
+        arena = circle
+    }
     
+//    func addCircleObstacle() {
+//      // 1
+//      let path = UIBezierPath()
+//      // 2
+//      path.move(to: CGPoint(x: 0, y: -200))
+//      // 3
+//      path.addLine(to: CGPoint(x: 0, y: -160))
+//      // 4
+//      path.addArc(withCenter: CGPoint.zero,
+//                  radius: 160,
+//                  startAngle: CGFloat(3.0 * Double.pi/2),
+//                  endAngle: CGFloat(0),
+//                  clockwise: true)
+//      // 5
+//      path.addLine(to: CGPoint(x: 200, y: 0))
+//      path.addArc(withCenter: CGPoint.zero,
+//                  radius: 200,
+//                  startAngle: CGFloat(0.0),
+//                  endAngle: CGFloat(3.0 * Double.pi/2),
+//                  clockwise: false)
+//
+//
+//        let section = SKShapeNode(path: path.cgPath)
+//        section.position = CGPoint(x: size.width/2, y: size.height/2)
+//        section.fillColor = .yellow
+//        section.strokeColor = .yellow
+//        addChild(section)
+//    }
 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -219,6 +260,15 @@ class GameScene: SKScene {
         
 
         let location = mainCharacter?.position
+//        let arenaLocation = arena?.position
+//        
+//        let xDist = (location?.x ?? 0) - (arenaLocation?.x ?? 0)
+//        let yDist = (location?.y ?? 0) - (arenaLocation?.y ?? 0)
+//        let distance = sqrt(xDist*xDist + yDist*yDist)
+//        
+//        if distance < arenaRadius{
+//            print("die")
+//        }
 
          for enemy in enemies {
              //Aim
