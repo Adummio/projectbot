@@ -16,6 +16,7 @@ class GameScene: SKScene {
     var enemy : SKSpriteNode?
     let joystick = 🕹(withDiameter: 100)
     
+    let enemySpeed:CGFloat = 3.0
     
     override func didMove(to view: SKView) {
         
@@ -105,10 +106,6 @@ class GameScene: SKScene {
         enemy = node
         enemies.append(enemy!)
         
-        let action = SKAction.moveBy(x: 100, y: 0, duration: 1)
-        let action2 = SKAction.moveBy(x: -100, y: 0, duration: 1)
-        let seq = SKAction.repeatForever(SKAction.sequence([action,action2]))
-        enemy?.run(seq)
     }
     
     
@@ -219,6 +216,25 @@ class GameScene: SKScene {
 //        }
 //
 //        self.lastUpdateTime = currentTime
+        
+
+        let location = mainCharacter?.position
+
+         for enemy in enemies {
+             //Aim
+             let dx = (location?.x)! - enemy.position.x
+             let dy = (location?.y)! - enemy.position.y
+             let angle = atan2(dy, dx)
+
+             enemy.zRotation = angle - 3 * .pi/2
+
+             //Seek
+             let velocityX = cos(angle) * enemySpeed
+             let velocityY = sin(angle) * enemySpeed
+
+             enemy.position.x += velocityX
+             enemy.position.y += velocityY
+         }
         
     }
 }
