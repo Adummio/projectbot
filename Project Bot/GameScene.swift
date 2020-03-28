@@ -11,30 +11,40 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    var mainCharacter: SKSpriteNode?
+    var mainCharacter : SKSpriteNode?
+    var enemies = [SKSpriteNode]()
+    var enemy : SKSpriteNode?
     let joystick = 🕹(withDiameter: 100)
+    
     
     override func didMove(to view: SKView) {
         
+        let background = SKSpriteNode(imageNamed: "bg")
+        background.zPosition = 0
+        background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        addChild(background)
+       
 //        let image = UIImage(named: "")
         joystick.handleImage = nil
 //        let substrateImage = UIImage(named: "")
         joystick.baseImage = nil
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-        let moveJoystickHiddenArea = AnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 0, width: frame.midX, height: frame.height))
+        let moveJoystickHiddenArea = AnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 0, width: frame.width, height: frame.midY/2))
+        moveJoystickHiddenArea.zPosition = 1
         moveJoystickHiddenArea.joystick = joystick
         joystick.isMoveable = true
         addChild(moveJoystickHiddenArea)
         
-        joystick.on(.begin) { [unowned self] _ in
-            let actions = [
-                SKAction.scale(to: 0.5, duration: 0.5),
-                SKAction.scale(to: 1, duration: 0.5)
-            ]
-
-            self.mainCharacter?.run(SKAction.sequence(actions))
-        }
+//        joystick.on(.begin) { [unowned self] _ in
+//            let actions = [
+//                SKAction.scale(to: 0.5, duration: 0.5),
+//                SKAction.scale(to: 1, duration: 0.5)
+//            ]
+//
+//            self.mainCharacter?.run(SKAction.sequence(actions))
+//        }
         
         joystick.on(.move) { [unowned self] joystick in
             guard let mainCharacter = self.mainCharacter else {
@@ -49,23 +59,24 @@ class GameScene: SKScene {
             mainCharacter.zRotation = joystick.angular
         }
         
-        joystick.on(.end) { [unowned self] _ in
-            let actions = [
-                SKAction.scale(to: 1.5, duration: 0.5),
-                SKAction.scale(to: 1, duration: 0.5)
-            ]
-
-            self.mainCharacter?.run(SKAction.sequence(actions))
-        }
+//        joystick.on(.end) { [unowned self] _ in
+//            let actions = [
+//                SKAction.scale(to: 1.5, duration: 0.5),
+//                SKAction.scale(to: 1, duration: 0.5)
+//            ]
+//
+//            self.mainCharacter?.run(SKAction.sequence(actions))
+//        }
         
         addMainCharacter(atPosition: CGPoint(x: frame.midX, y: frame.midY))
+        addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.maxY-100))
         
         view.isMultipleTouchEnabled = true
     }
     
     
     func addMainCharacter(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "SwiftLogo") else {
+        guard let image = UIImage(named: "mainChar") else {
             return
         }
         
@@ -74,10 +85,34 @@ class GameScene: SKScene {
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.position = position
+        node.zPosition = 1
         addChild(node)
         mainCharacter = node
     }
     
+    func addEnemy(atPosition position: CGPoint) {
+        guard let image = UIImage(named: "enemy") else {
+            return
+        }
+        
+        let texture = SKTexture(image: image)
+        let node = SKSpriteNode(texture: texture)
+        node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
+        node.physicsBody!.affectedByGravity = false
+        node.position = position
+        node.zPosition = 1
+        addChild(node)
+        enemy = node
+        enemies.append(enemy!)
+        
+        let action = SKAction.moveBy(x: 100, y: 0, duration: 1)
+        let action2 = SKAction.moveBy(x: -100, y: 0, duration: 1)
+        let seq = SKAction.repeatForever(SKAction.sequence([action,action2]))
+        enemy?.run(seq)
+    }
+    
+    
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
@@ -167,7 +202,7 @@ class GameScene: SKScene {
 //    }
 //
 //
-//    override func update(_ currentTime: TimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
 //        // Called before each frame is rendered
 //
 //        // Initialize _lastUpdateTime if it has not already been
@@ -184,5 +219,6 @@ class GameScene: SKScene {
 //        }
 //
 //        self.lastUpdateTime = currentTime
-//    }
+        
+    }
 }
