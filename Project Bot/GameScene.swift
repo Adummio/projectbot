@@ -175,6 +175,7 @@ class GameScene: SKScene {
         } else {
             self.resultLabel.isHidden = false
             resultLabel.text = "You Lost"
+            enemies.removeAll()
             player?.run(fallDown, completion: {() -> Void in
                 self.scene!.view!.isPaused = true
                 self.player!.isHidden = true
