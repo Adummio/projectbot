@@ -22,12 +22,15 @@ class GameScene: SKScene {
     var enemy : SKSpriteNode?
     let enemySpeed:CGFloat = 3.0
     
+    // Upgrades & Downgrades
+    var faster : SKSpriteNode?
+    
     // Labels
     let resultLabel = SKLabelNode(fontNamed:"Helvetica")
 
     // Arena
     var arena: SKShapeNode?
-    let arenaRadius: CGFloat = 500.0
+    let arenaRadius: CGFloat = 700.0
     var circle = SKShapeNode()
     
     // Animations
@@ -53,6 +56,15 @@ class GameScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: PHYSICS CATEGORIES
+    
+    enum PhysicsCategories: UInt32 {
+        case player = 1
+        case enemies = 2
+        case powers = 4
+        case arena = 8
+    }
+    
     // MARK: DIDMOVE
     
     override func didMove(to view: SKView) {
@@ -69,6 +81,7 @@ class GameScene: SKScene {
         addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
         addEnemy(atPosition: CGPoint(x: frame.midX+50, y: frame.midY+250))
         addCircle()
+        addFaster(atPosition: CGPoint(x: frame.midX-150, y: frame.midY-150))
         debugPlayableArea()
         
          joystick.on(.move) { [unowned self] joystick in
@@ -149,7 +162,6 @@ class GameScene: SKScene {
         addChild(node)
         enemy = node
         enemies.append(enemy!)
-        
     }
     
     func addCircle() {
@@ -163,6 +175,15 @@ class GameScene: SKScene {
         arena = circle
     }
     
+    func addFaster(atPosition position: CGPoint) {
+        guard let image = UIImage(named: "faster") else { return }
+        let texture = SKTexture(image: image)
+        let node = SKSpriteNode(texture: texture)
+        node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
+        node.physicsBody!.affectedByGravity = false
+        node.position = position
+        node.zPosition = 1
+        addChild(node)
     func restartScene() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.removeAllActions()
