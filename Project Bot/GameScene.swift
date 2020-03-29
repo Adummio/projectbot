@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     // Camera
     var cameraNode = SKCameraNode()
     
@@ -59,15 +59,17 @@ class GameScene: SKScene {
     // MARK: PHYSICS CATEGORIES
     
     enum PhysicsCategories: UInt32 {
-        case player = 1
-        case enemies = 2
-        case powers = 4
-        case arena = 8
+        case player = 0b00000001 // 1
+        case enemies = 0b00000010 // 2
+        case powers = 0b00000100 // 4
+        case arena = 0b00001000 // 8
     }
     
     // MARK: DIDMOVE
     
     override func didMove(to view: SKView) {
+        
+        physicsWorld.contactDelegate = self
       
         addChild(cameraNode)
         camera = cameraNode
@@ -83,6 +85,9 @@ class GameScene: SKScene {
         addCircle()
         addFaster(atPosition: CGPoint(x: frame.midX-150, y: frame.midY-150))
         debugPlayableArea()
+        
+        
+        
         
          joystick.on(.move) { [unowned self] joystick in
                    guard let player = self.player else { return }
@@ -145,6 +150,9 @@ class GameScene: SKScene {
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
+        node.physicsBody?.categoryBitMask = PhysicsCategories.player.rawValue
+        node.physicsBody?.collisionBitMask = 00001111
+        node.physicsBody?.contactTestBitMask = 00001111
         node.position = position
         node.zPosition = 1
         addChild(node)
@@ -157,6 +165,9 @@ class GameScene: SKScene {
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
+        node.physicsBody?.categoryBitMask = PhysicsCategories.enemies.rawValue
+        node.physicsBody?.collisionBitMask = 00001111
+        node.physicsBody?.contactTestBitMask = 00001111
         node.position = position
         node.zPosition = 1
         addChild(node)
@@ -181,14 +192,27 @@ class GameScene: SKScene {
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
+        node.physicsBody?.categoryBitMask = PhysicsCategories.powers.rawValue
+        node.physicsBody?.collisionBitMask = 00001111
+        node.physicsBody?.contactTestBitMask = 00001111
         node.position = position
         node.zPosition = 1
         addChild(node)
+    }
+    
     func restartScene() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.removeAllActions()
             self.removeAllChildren()
             NotificationCenter.default.post(name: Notification.Name("restartScene"), object: nil)
+        }
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+      print("oddio")
+        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.powers.rawValue) {
+            player?.scale(to: CGSize(width: 200, height: 200))
+            player?.physicsBody?.mass = 1
         }
     }
     
@@ -211,7 +235,7 @@ class GameScene: SKScene {
                 self.player?.removeFromParent()
             })
             
-            restartScene()
+//            restartScene()
         }
         
         for enemy in enemies {
@@ -240,7 +264,7 @@ class GameScene: SKScene {
                     self.enemy!.removeFromParent()
                 })
                 
-                restartScene()
+//                restartScene()
             }
         }
     }
