@@ -53,6 +53,8 @@ class GameScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: DIDMOVE
+    
     override func didMove(to view: SKView) {
       
         addChild(cameraNode)
@@ -65,6 +67,7 @@ class GameScene: SKScene {
         addJoystick()
         addPlayer(atPosition: CGPoint(x: frame.midX, y: frame.midY))
         addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
+        addEnemy(atPosition: CGPoint(x: frame.midX+50, y: frame.midY+250))
         addCircle()
         debugPlayableArea()
         
@@ -160,7 +163,8 @@ class GameScene: SKScene {
         arena = circle
     }
     
- 
+ // MARK: UPDATE
+    
     override func update(_ currentTime: TimeInterval) {
         
         let location = player?.position
