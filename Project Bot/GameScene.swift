@@ -70,7 +70,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
-      
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
@@ -83,8 +82,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
         addEnemy(atPosition: CGPoint(x: frame.midX+50, y: frame.midY+250))
         addCircle()
-        addFaster(atPosition: CGPoint(x: frame.midX-150, y: frame.midY-150))
-        debugPlayableArea()
+        addBigger(atPosition: CGPoint(x: frame.midX-150, y: frame.midY-150))
+//        debugPlayableArea()
         
         
         
@@ -150,6 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
+        node.physicsBody?.mass = 0.5
         node.physicsBody?.categoryBitMask = PhysicsCategories.player.rawValue
         node.physicsBody?.collisionBitMask = 00001111
         node.physicsBody?.contactTestBitMask = 00001111
@@ -165,6 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
+        node.physicsBody?.mass = 0.5
         node.physicsBody?.categoryBitMask = PhysicsCategories.enemies.rawValue
         node.physicsBody?.collisionBitMask = 00001111
         node.physicsBody?.contactTestBitMask = 00001111
@@ -178,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addCircle() {
         self.circle = SKShapeNode(circleOfRadius: arenaRadius)
         circle.position = CGPoint(x: frame.midX, y: frame.midY)
-        circle.fillColor = .yellow
+        circle.fillColor = .lightGray
         circle.glowWidth = 1.0
         circle.strokeColor = .black
         circle.zPosition = 0
@@ -186,8 +187,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         arena = circle
     }
     
-    func addFaster(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "faster") else { return }
+    func addBigger(atPosition position: CGPoint) {
+        guard let image = UIImage(named: "bigger") else { return }
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
@@ -209,11 +210,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-      print("oddio")
+        // Player collides Powers
         if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.powers.rawValue) {
-            player?.scale(to: CGSize(width: 200, height: 200))
-            player?.physicsBody?.mass = 1
+            player?.physicsBody?.mass = 5
+            let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
+            let wait = SKAction.wait(forDuration: 5)
+            let seq = SKAction.sequence([scale,wait])
+            player?.run(seq, completion: {() -> Void in
+                self.player?.physicsBody?.mass = 0.5
+                self.player?.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+            })
+            
         }
+        // Player collides Enemies (testing - it kinda works but needs more work)
+//        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
+//            enemy?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
+//        }
+        
     }
     
  // MARK: UPDATE
