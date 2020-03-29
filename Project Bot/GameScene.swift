@@ -152,7 +152,7 @@ class GameScene: SKScene {
         
     }
     
-    func addCircle(){
+    func addCircle() {
         self.circle = SKShapeNode(circleOfRadius: arenaRadius)
         circle.position = CGPoint(x: frame.midX, y: frame.midY)
         circle.fillColor = .yellow
@@ -161,6 +161,14 @@ class GameScene: SKScene {
         circle.zPosition = 0
         addChild(circle)
         arena = circle
+    }
+    
+    func restartScene() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.removeAllActions()
+            self.removeAllChildren()
+            NotificationCenter.default.post(name: Notification.Name("restartScene"), object: nil)
+        }
     }
     
  // MARK: UPDATE
@@ -182,6 +190,7 @@ class GameScene: SKScene {
                 self.player?.removeFromParent()
             })
             
+            restartScene()
         }
         
         for enemy in enemies {
@@ -209,6 +218,8 @@ class GameScene: SKScene {
                     self.enemy!.isHidden = true
                     self.enemy!.removeFromParent()
                 })
+                
+                restartScene()
             }
         }
     }

@@ -12,11 +12,22 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(restartScene), name: Notification.Name("restartScene"), object: nil)
+
+        startScene()
+    }
+    
+    @objc func restartScene (notification: NSNotification) {
+        startScene()
+    }
+    
+    func startScene() {
         let scene = GameScene(size: CGSize(width: 1536, height: 2048))
-//        let scene = GameScene(size: self.view.bounds.size)
+        //        let scene = GameScene(size: self.view.bounds.size)
         scene.backgroundColor = .black
         scene.scaleMode = .aspectFill
         
