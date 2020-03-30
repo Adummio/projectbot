@@ -14,6 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var cameraNode = SKCameraNode()
     
     // Players & Movement
+    var isDead = false
     var player : SKSpriteNode?
     var player2 : Player?
     var player3 : Player?
@@ -98,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          joystick.on(.move) { [unowned self] joystick in
             guard let player = self.player else { return }
                    let pVelocity = joystick.velocity;
-                   let speed = CGFloat(0.12)
+            let speed = self.isDead ? 0.0 : CGFloat(0.12)
                    player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
                    player.zRotation = joystick.angular
                }
@@ -350,24 +351,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if circle.contains(location!) {
             player!.isHidden = false
         } else {
-            resultLabel.text = "You Lost"
-            self.resultLabel.isHidden = false
+            self.isDead = true
             player?.run(fallDown, completion: {() -> Void in
-                self.scene!.view!.isPaused = true
+                self.resultLabel.text = "You Lost"
+                self.resultLabel.isHidden = false
                 self.player!.isHidden = true
                 self.player?.removeFromParent()
+                self.scene!.view!.isPaused = true
             })
             
 //            restartScene()
         }
         var index = 0
         for player in alivePlayers{
-            print("porcodio")
             followPlayer(location: location!, enemy: player, index: index)
             index += 1
         }
         
-//        followPlayer(location: location!, enemy: player3)
-//        followPlayer(location: location!, enemy: player4)
     }
 }
