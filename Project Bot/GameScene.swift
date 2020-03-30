@@ -18,6 +18,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let joystick = 🕹(withDiameter: 300)
     
     // Enemies
+    
+    struct Enemy{
+        var enemy: SKSpriteNode?
+        var speed:CGFloat = 3.0
+    }
     var enemies = [SKSpriteNode]()
     var enemy : SKSpriteNode?
     let enemySpeed:CGFloat = 3.0
@@ -269,16 +274,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if circle.contains(enemy.position) {
                 enemy.isHidden = false
             } else {
-                self.resultLabel.isHidden = false
-                resultLabel.text = "You Won"
                 enemy.run(fallDown, completion: {() -> Void in
-                    self.scene!.view!.isPaused = true
                     self.enemy!.isHidden = true
                     self.enemy!.removeFromParent()
                 })
                 
 //                restartScene()
             }
+        }
+        
+        if enemies.isEmpty{
+            resultLabel.text = "You Won"
+            self.resultLabel.isHidden = false
+            self.scene!.view!.isPaused = true
         }
     }
 }
