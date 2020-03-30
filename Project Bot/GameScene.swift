@@ -13,8 +13,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Camera
     var cameraNode = SKCameraNode()
     
-    // Player & Movement
+    // Players & Movement
     var player : SKSpriteNode?
+    var player2 : SKSpriteNode?
+    var player3 : SKSpriteNode?
+    var player4 : SKSpriteNode?
     let joystick = 🕹(withDiameter: 300)
     
     // Enemies
@@ -24,7 +27,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var speed:CGFloat = 3.0
     }
     var enemies = [SKSpriteNode]()
-    var enemy : SKSpriteNode?
     let enemySpeed:CGFloat = 3.0
     
     // Upgrades & Downgrades
@@ -65,9 +67,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     enum PhysicsCategories: UInt32 {
         case player = 0b00000001 // 1
-        case enemies = 0b00000010 // 2
-        case powers = 0b00000100 // 4
-        case arena = 0b00001000 // 8
+        case player2 = 0b00000010 // 2
+        case player3 = 0b00000100 // 4
+        case player4 = 0b00001000 // 8
+        case powers = 0b00010000 // 4
+        case arena = 0b00100000 // 8
     }
     
     // MARK: DIDMOVE
@@ -84,8 +88,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addResultLabel()
         addJoystick()
         addPlayer(atPosition: CGPoint(x: frame.midX, y: frame.midY))
-        addEnemy(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
-        addEnemy(atPosition: CGPoint(x: frame.midX+50, y: frame.midY+250))
+        addPlayer2(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
+        addPlayer3(atPosition: CGPoint(x: frame.midX+50, y: frame.midY+350))
+        addPlayer4(atPosition: CGPoint(x: frame.midX+250, y: frame.midY+250))
         addCircle()
         addBigger(atPosition: CGPoint(x: frame.midX-150, y: frame.midY-150))
 //        debugPlayableArea()
@@ -164,21 +169,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player = node
     }
     
-    func addEnemy(atPosition position: CGPoint) {
+    func addPlayer2(atPosition position: CGPoint) {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
-        node.physicsBody?.categoryBitMask = PhysicsCategories.enemies.rawValue
+        node.physicsBody?.categoryBitMask = PhysicsCategories.player2.rawValue
         node.physicsBody?.collisionBitMask = 00001111
         node.physicsBody?.contactTestBitMask = 00001111
         node.position = position
         node.zPosition = 1
         addChild(node)
-        enemy = node
-        enemies.append(enemy!)
+        player2 = node
+    }
+    
+    func addPlayer3(atPosition position: CGPoint) {
+        guard let image = UIImage(named: "enemy") else { return }
+        let texture = SKTexture(image: image)
+        let node = SKSpriteNode(texture: texture)
+        node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
+        node.physicsBody!.affectedByGravity = false
+        node.physicsBody?.mass = 0.5
+        node.physicsBody?.categoryBitMask = PhysicsCategories.player3.rawValue
+        node.physicsBody?.collisionBitMask = 00001111
+        node.physicsBody?.contactTestBitMask = 00001111
+        node.position = position
+        node.zPosition = 1
+        addChild(node)
+        player3 = node
+    }
+    
+    func addPlayer4(atPosition position: CGPoint) {
+        guard let image = UIImage(named: "enemy") else { return }
+        let texture = SKTexture(image: image)
+        let node = SKSpriteNode(texture: texture)
+        node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
+        node.physicsBody!.affectedByGravity = false
+        node.physicsBody?.mass = 0.5
+        node.physicsBody?.categoryBitMask = PhysicsCategories.player4.rawValue
+        node.physicsBody?.collisionBitMask = 00001111
+        node.physicsBody?.contactTestBitMask = 00001111
+        node.position = position
+        node.zPosition = 1
+        addChild(node)
+        player4 = node
     }
     
     func addCircle() {
@@ -214,6 +250,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func followPlayer(location: CGPoint, enemy: SKSpriteNode) {
+        let dx = (location.x) - enemy.position.x
+        let dy = (location.y) - enemy.position.y
+            let angle = atan2(dy, dx)
+                    
+        enemy.zRotation = angle - 3 * .pi/2
+                    
+        //Seek
+        let velocityX = cos(angle) * enemySpeed
+        let velocityY = sin(angle) * enemySpeed
+                    
+        enemy.position.x += velocityX
+        enemy.position.y += velocityY
+                    
+        if circle.contains(enemy.position) {
+            enemy.isHidden = false
+        } else {
+            self.resultLabel.isHidden = false
+            resultLabel.text = "You Won"
+            enemy.run(fallDown, completion: {() -> Void in
+            self.scene!.view!.isPaused = true
+            enemy.isHidden = true
+            enemy.removeFromParent()
+            })
+                        
+        //   restartScene()
+            }
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         // Player collides Powers
@@ -226,17 +291,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.player?.physicsBody?.mass = 0.5
                 self.player?.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
             })
-        } else if collision == PhysicsCategories.enemies.rawValue | PhysicsCategories.powers.rawValue {
-            for enemy in enemies {
-            enemy.physicsBody?.mass = 5
+        } else if collision == PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue {
+            player2!.physicsBody?.mass = 5
             let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
             let wait = SKAction.wait(forDuration: 5)
             let seq = SKAction.sequence([scale,wait])
-            enemy.run(seq, completion: {() -> Void in
-                self.enemy!.physicsBody?.mass = 0.5
-                self.enemy!.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+            player2!.run(seq, completion: {() -> Void in
+                self.player2!.physicsBody?.mass = 0.5
+                self.player2!.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
             })
-            }
+            
         }
         // Player collides Enemies (testing - it kinda works but needs more work)
 //        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
@@ -267,37 +331,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            restartScene()
         }
         
-        for enemy in enemies {
-            //Aim
-            let dx = (location?.x)! - enemy.position.x
-            let dy = (location?.y)! - enemy.position.y
-            let angle = atan2(dy, dx)
-            
-            enemy.zRotation = angle - 3 * .pi/2
-            
-            //Seek
-            let velocityX = cos(angle) * enemySpeed
-            let velocityY = sin(angle) * enemySpeed
-            
-            enemy.position.x += velocityX
-            enemy.position.y += velocityY
-            
-            if circle.contains(enemy.position) {
-                enemy.isHidden = false
-            } else {
-                enemy.run(fallDown, completion: {() -> Void in
-                    self.enemy!.isHidden = true
-                    self.enemy!.removeFromParent()
-                })
-                
-//                restartScene()
-            }
-        }
-        
-        if enemies.isEmpty{
-            resultLabel.text = "You Won"
-            self.resultLabel.isHidden = false
-            self.scene!.view!.isPaused = true
-        }
+        followPlayer(location: location!, enemy: player2!)
+        followPlayer(location: location!, enemy: player3!)
+        followPlayer(location: location!, enemy: player4!)
     }
 }
