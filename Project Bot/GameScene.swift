@@ -215,8 +215,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
+        let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         // Player collides Powers
-        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.powers.rawValue) {
+        if collision == PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue {
             player?.physicsBody?.mass = 5
             let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
             let wait = SKAction.wait(forDuration: 5)
@@ -225,7 +226,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.player?.physicsBody?.mass = 0.5
                 self.player?.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
             })
-            
+        } else if collision == PhysicsCategories.enemies.rawValue | PhysicsCategories.powers.rawValue {
+            for enemy in enemies {
+            enemy.physicsBody?.mass = 5
+            let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
+            let wait = SKAction.wait(forDuration: 5)
+            let seq = SKAction.sequence([scale,wait])
+            enemy.run(seq, completion: {() -> Void in
+                self.enemy!.physicsBody?.mass = 0.5
+                self.enemy!.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+            })
+            }
         }
         // Player collides Enemies (testing - it kinda works but needs more work)
 //        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
