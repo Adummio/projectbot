@@ -16,6 +16,10 @@
 		650A3654242A658600AB43BE /* Project_BotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A3653242A658600AB43BE /* Project_BotTests.swift */; };
 		650A365F242A658600AB43BE /* Project_BotUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A365E242A658600AB43BE /* Project_BotUITests.swift */; };
 		65DA693A242A736B00BAAFE2 /* AnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6939242A736B00BAAFE2 /* AnalogJoystick.swift */; };
+		EAFC350E2432337B000D4F98 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFC350D2432337B000D4F98 /* MenuViewController.swift */; };
+		EAFC3511243234EF000D4F98 /* 3DRobotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFC3510243234EF000D4F98 /* 3DRobotCell.swift */; };
+		EAFC351424323657000D4F98 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFC351324323657000D4F98 /* Robot.swift */; };
+		EAFC351624323C73000D4F98 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EAFC351524323C73000D4F98 /* art.scnassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,10 @@
 		650A365E242A658600AB43BE /* Project_BotUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_BotUITests.swift; sourceTree = "<group>"; };
 		650A3660242A658600AB43BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65DA6939242A736B00BAAFE2 /* AnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogJoystick.swift; sourceTree = "<group>"; };
+		EAFC350D2432337B000D4F98 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		EAFC3510243234EF000D4F98 /* 3DRobotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DRobotCell.swift; sourceTree = "<group>"; };
+		EAFC351324323657000D4F98 /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
+		EAFC351524323C73000D4F98 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,9 +109,13 @@
 		650A3637242A658500AB43BE /* Project Bot */ = {
 			isa = PBXGroup;
 			children = (
+				EAFC351224323648000D4F98 /* Objects */,
+				EAFC350F243234BD000D4F98 /* Cells */,
 				650A3638242A658500AB43BE /* AppDelegate.swift */,
 				650A363E242A658500AB43BE /* GameScene.swift */,
 				650A3640242A658500AB43BE /* GameViewController.swift */,
+				EAFC350D2432337B000D4F98 /* MenuViewController.swift */,
+				EAFC351524323C73000D4F98 /* art.scnassets */,
 				650A3642242A658500AB43BE /* Main.storyboard */,
 				650A3645242A658500AB43BE /* Assets.xcassets */,
 				650A3647242A658500AB43BE /* LaunchScreen.storyboard */,
@@ -129,6 +141,22 @@
 				650A3660242A658600AB43BE /* Info.plist */,
 			);
 			path = "Project BotUITests";
+			sourceTree = "<group>";
+		};
+		EAFC350F243234BD000D4F98 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				EAFC3510243234EF000D4F98 /* 3DRobotCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		EAFC351224323648000D4F98 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				EAFC351324323657000D4F98 /* Robot.swift */,
+			);
+			path = Objects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				650A3644242A658500AB43BE /* Main.storyboard in Resources */,
+				EAFC351624323C73000D4F98 /* art.scnassets in Resources */,
 				650A3646242A658500AB43BE /* Assets.xcassets in Resources */,
 				650A3649242A658500AB43BE /* LaunchScreen.storyboard in Resources */,
 			);
@@ -263,6 +292,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				650A363F242A658500AB43BE /* GameScene.swift in Sources */,
+				EAFC3511243234EF000D4F98 /* 3DRobotCell.swift in Sources */,
+				EAFC351424323657000D4F98 /* Robot.swift in Sources */,
+				EAFC350E2432337B000D4F98 /* MenuViewController.swift in Sources */,
 				65DA693A242A736B00BAAFE2 /* AnalogJoystick.swift in Sources */,
 				650A3641242A658500AB43BE /* GameViewController.swift in Sources */,
 				650A3639242A658500AB43BE /* AppDelegate.swift in Sources */,
@@ -439,7 +471,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MN97RA7RPA;
+				DEVELOPMENT_TEAM = KXZF72639J;
 				INFOPLIST_FILE = "Project Bot/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -459,7 +491,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MN97RA7RPA;
+				DEVELOPMENT_TEAM = KXZF72639J;
 				INFOPLIST_FILE = "Project Bot/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (

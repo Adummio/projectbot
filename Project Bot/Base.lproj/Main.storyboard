@@ -1,24 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="D2h-cL-koP">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Menu View Controller-->
+        <scene sceneID="fiR-MM-qaa">
+            <objects>
+                <viewController id="D2h-cL-koP" customClass="MenuViewController" customModule="Project_Bot" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="t78-9D-fIr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P5e-I9-Cea">
+                                <rect key="frame" x="0.0" y="168" width="414" height="577"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BGr-Ou-cqE">
+                                    <size key="itemSize" width="353" height="556"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="robotCell" id="OQT-19-vgY" customClass="RobotCell" customModule="Project_Bot" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="10.5" width="353" height="556"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5NB-KH-ttf">
+                                            <rect key="frame" x="0.0" y="0.0" width="353" height="556"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgRobotMenu" translatesAutoresizingMaskIntoConstraints="NO" id="vbH-Jv-Uay">
+                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="556"/>
+                                                </imageView>
+                                                <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4m-og-zSN">
+                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="556"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </sceneKitView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-6F-S4c">
+                                                    <rect key="frame" x="108" y="464.5" width="137" height="31.5"/>
+                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="29"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="P4m-og-zSN" secondAttribute="trailing" id="1F1-kK-w4b"/>
+                                                <constraint firstAttribute="bottom" secondItem="P4m-og-zSN" secondAttribute="bottom" id="4tb-49-GXz"/>
+                                                <constraint firstAttribute="trailing" secondItem="vbH-Jv-Uay" secondAttribute="trailing" id="CKN-im-0jB"/>
+                                                <constraint firstItem="zsn-6F-S4c" firstAttribute="centerX" secondItem="5NB-KH-ttf" secondAttribute="centerX" id="MsY-wy-hgs"/>
+                                                <constraint firstItem="vbH-Jv-Uay" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="OYJ-Kp-Kze"/>
+                                                <constraint firstItem="P4m-og-zSN" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="OfR-Uh-e8y"/>
+                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="60" id="fE5-oS-a1l"/>
+                                                <constraint firstItem="P4m-og-zSN" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="wb4-mp-nkb"/>
+                                                <constraint firstItem="vbH-Jv-Uay" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="xcJ-3M-Ylw"/>
+                                                <constraint firstAttribute="bottom" secondItem="vbH-Jv-Uay" secondAttribute="bottom" id="xqR-MI-9jp"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="353" height="556"/>
+                                        <connections>
+                                            <outlet property="robotNameLabel" destination="zsn-6F-S4c" id="o37-Rn-Sze"/>
+                                            <outlet property="sceneView" destination="P4m-og-zSN" id="aPD-yB-bvy"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="D2h-cL-koP" id="b3s-gC-OkU"/>
+                                    <outlet property="delegate" destination="D2h-cL-koP" id="K32-4Z-JfL"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="sWA-o1-ygx"/>
+                    </view>
+                    <connections>
+                        <outlet property="robotCollectionView" destination="P5e-I9-Cea" id="YcI-hl-V8I"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pSk-1F-ghw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1107.2463768115942" y="119.86607142857142"/>
+        </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="gameViewController" id="BV1-FR-VrT" customClass="GameViewController" customModule="Project_Bot" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-248" y="120"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bgRobotMenu" width="700" height="700"/>
+    </resources>
 </document>
