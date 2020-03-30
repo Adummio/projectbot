@@ -319,24 +319,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch collision{
         case PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player!)
+            power?.removeFromParent()
         case PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player2!)
+            power?.removeFromParent()
         case PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player3!)
+            power?.removeFromParent()
         case PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player4!)
+            power?.removeFromParent()
         default:
             break
         }
-//        if collision == PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue {
-//            collideBigger(player: player.player!)
-//        } else if collision == PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue {
-//            collideBigger(player: player2.player!)
-//        } else if collision == PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue {
-//            collideBigger(player: player3.player!)
-//        } else if collision == PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue {
-//            collideBigger(player: player4.player!)
-//        }
+
         // Player collides Enemies (testing - it kinda works but needs more work)
 //        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
 //            enemy?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
