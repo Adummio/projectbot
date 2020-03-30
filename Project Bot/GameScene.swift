@@ -242,6 +242,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(node)
     }
     
+     func collideBigger(player: SKSpriteNode) {
+            player.physicsBody?.mass = 5
+            let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
+            let wait = SKAction.wait(forDuration: 5)
+            let seq = SKAction.sequence([scale,wait])
+            player.run(seq, completion: {() -> Void in
+                self.player!.physicsBody?.mass = 0.5
+                self.player!.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+            })
+        }
+    
     func restartScene() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.removeAllActions()
@@ -283,24 +294,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         // Player collides Powers
         if collision == PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue {
-            player?.physicsBody?.mass = 5
-            let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
-            let wait = SKAction.wait(forDuration: 5)
-            let seq = SKAction.sequence([scale,wait])
-            player?.run(seq, completion: {() -> Void in
-                self.player?.physicsBody?.mass = 0.5
-                self.player?.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
-            })
+            collideBigger(player: player!)
         } else if collision == PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue {
-            player2!.physicsBody?.mass = 5
-            let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
-            let wait = SKAction.wait(forDuration: 5)
-            let seq = SKAction.sequence([scale,wait])
-            player2!.run(seq, completion: {() -> Void in
-                self.player2!.physicsBody?.mass = 0.5
-                self.player2!.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
-            })
-            
+            collideBigger(player: player2!)
+        } else if collision == PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue {
+            collideBigger(player: player3!)
+        } else if collision == PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue {
+            collideBigger(player: player4!)
         }
         // Player collides Enemies (testing - it kinda works but needs more work)
 //        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
