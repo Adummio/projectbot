@@ -13,5 +13,6 @@ class RobotCell: UICollectionViewCell {
     
     @IBOutlet weak var sceneView: SCNView!
     @IBOutlet weak var robotNameLabel: UILabel!
+    @IBOutlet weak var backgroundCell: UIImageView!
     
 }

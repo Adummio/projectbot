@@ -63,6 +63,7 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="353" height="556"/>
                                         <connections>
+                                            <outlet property="backgroundCell" destination="vbH-Jv-Uay" id="AkP-PE-wWU"/>
                                             <outlet property="robotNameLabel" destination="zsn-6F-S4c" id="o37-Rn-Sze"/>
                                             <outlet property="sceneView" destination="P4m-og-zSN" id="aPD-yB-bvy"/>
                                         </connections>
@@ -73,8 +74,45 @@
                                     <outlet property="delegate" destination="D2h-cL-koP" id="K32-4Z-JfL"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfL-tH-cPg">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="117"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick your robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTC-wv-lUI">
+                                        <rect key="frame" x="133" y="68" width="148.5" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="tYJ-7T-5Y9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdW-Yj-NnK">
+                                        <rect key="frame" x="336" y="43.5" width="70" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="CZE-kC-4QH"/>
+                                            <constraint firstAttribute="width" constant="70" id="iN2-uF-osj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="gear" catalog="system"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="centerX" secondItem="yfL-tH-cPg" secondAttribute="centerX" id="DlY-bA-GXX"/>
+                                    <constraint firstAttribute="height" constant="117" id="ENF-ft-zDU"/>
+                                    <constraint firstAttribute="trailing" secondItem="pdW-Yj-NnK" secondAttribute="trailing" constant="8" id="GSt-gu-bn7"/>
+                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="68" id="MeD-iZ-HMg"/>
+                                    <constraint firstItem="pdW-Yj-NnK" firstAttribute="centerY" secondItem="CTC-wv-lUI" secondAttribute="centerY" id="goD-vn-aKv"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="yfL-tH-cPg" firstAttribute="leading" secondItem="sWA-o1-ygx" secondAttribute="leading" id="TcZ-Z2-b5m"/>
+                            <constraint firstItem="yfL-tH-cPg" firstAttribute="trailing" secondItem="sWA-o1-ygx" secondAttribute="trailing" id="VZg-AQ-k9h"/>
+                            <constraint firstItem="yfL-tH-cPg" firstAttribute="top" secondItem="t78-9D-fIr" secondAttribute="top" id="oP8-jL-XTB"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="sWA-o1-ygx"/>
                     </view>
                     <connections>
@@ -103,5 +141,6 @@
     </scenes>
     <resources>
         <image name="bgRobotMenu" width="700" height="700"/>
+        <image name="gear" catalog="system" width="64" height="58"/>
     </resources>
 </document>
