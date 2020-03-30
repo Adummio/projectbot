@@ -27,7 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var alivePlayers = [Player]()
     
     // Upgrades & Downgrades
-    var faster : SKSpriteNode?
+    var power : SKSpriteNode?
     
     // Labels
     let resultLabel = SKLabelNode(fontNamed:"Helvetica")
@@ -84,12 +84,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addBackground()
         addResultLabel()
         addJoystick()
-        addPlayer(atPosition: CGPoint(x: frame.midX, y: frame.midY))
-        addPlayer2(atPosition: CGPoint(x: frame.midX, y: frame.midY+150))
-        addPlayer3(atPosition: CGPoint(x: frame.midX+50, y: frame.midY+350))
-        addPlayer4(atPosition: CGPoint(x: frame.midX+250, y: frame.midY+250))
+        addPlayer(atPosition: CGPoint(x: frame.midX-400, y: frame.midY-400))
+        addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
+        addPlayer3(atPosition: CGPoint(x: frame.midX+400, y: frame.midY+400))
+        addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
         addCircle()
-        addBigger(atPosition: CGPoint(x: frame.midX-150, y: frame.midY-150))
+        randomPowerSpawn()
 //        debugPlayableArea()
         
         
@@ -241,6 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.position = position
         node.zPosition = 1
         addChild(node)
+        power = node
     }
     
      func collideBigger(player: SKSpriteNode) {
@@ -253,6 +254,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.player!.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
             })
         }
+    
+    func randomPowerSpawn() {
+        let minX = frame.midX - 300
+        let maxX = frame.midX + 300
+        let minY = frame.midY - 300
+        let maxY = frame.midY + 300
+        let wait = SKAction.wait(forDuration: 10, withRange: 15)
+        let spawn = SKAction.run {
+            self.power?.removeFromParent()
+            self.addBigger(atPosition: CGPoint(x: CGFloat.random(in: minX..<maxX), y: CGFloat.random(in: minY..<maxY)))
+        }
+        let sequence = SKAction.sequence([wait, spawn])
+        self.run(SKAction.repeatForever(sequence))
+    }
     
     func restartScene() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
@@ -294,6 +309,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //   restartScene()
             }
     }
+    
+  // MARK: DIDBEGIN COLLIDE
     
     func didBegin(_ contact: SKPhysicsContact) {
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
