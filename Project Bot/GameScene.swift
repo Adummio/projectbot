@@ -24,7 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     class Player: SKSpriteNode{
         var playerSpeed: CGFloat = 3.0
     }
-    
+
     var alivePlayers = [Player]()
     
     // Upgrades & Downgrades
@@ -64,7 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: PHYSICS CATEGORIES
     
     enum PhysicsCategories: UInt32 {
-        case player = 0b00000001 // 1
+        case player1 = 0b00000001 // 1
         case player2 = 0b00000010 // 2
         case player3 = 0b00000100 // 4
         case player4 = 0b00001000 // 8
@@ -85,7 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addBackground()
         addResultLabel()
         addJoystick()
-        addPlayer(atPosition: CGPoint(x: frame.midX-400, y: frame.midY-400))
+        addPlayer1(atPosition: CGPoint(x: frame.midX-400, y: frame.midY-400))
         addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
         addPlayer3(atPosition: CGPoint(x: frame.midX+400, y: frame.midY+400))
         addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
@@ -97,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
          joystick.on(.move) { [unowned self] joystick in
-            guard let player = self.player else { return }
+            guard let player = self.player1 else { return }
                    let pVelocity = joystick.velocity;
             let speed = self.isDead ? 0.0 : CGFloat(0.12)
                    player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
@@ -151,21 +151,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(resultLabel)
     }
     
-    func addPlayer(atPosition position: CGPoint) {
+    func addPlayer1(atPosition position: CGPoint) {
         guard let image = UIImage(named: "mainChar") else { return }
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
-        node.physicsBody?.categoryBitMask = PhysicsCategories.player.rawValue
+        node.physicsBody?.categoryBitMask = PhysicsCategories.player1.rawValue
         node.physicsBody?.collisionBitMask = 00001111
         node.physicsBody?.contactTestBitMask = 00001111
         node.position = position
         node.zPosition = 1
         addChild(node)
 //        alivePlayers?.append(player)
-        player = node
+        player1 = node
     }
     
     func addPlayer2(atPosition position: CGPoint) {
@@ -251,8 +251,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let wait = SKAction.wait(forDuration: 5)
             let seq = SKAction.sequence([scale,wait])
             player.run(seq, completion: {() -> Void in
-                self.player!.physicsBody?.mass = 0.5
-                self.player!.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+                player.physicsBody?.mass = 0.5
+                player.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
             })
         }
     
@@ -318,8 +318,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Player collides Powers
         
         switch collision{
-        case PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue:
-            collideBigger(player: player!)
+        case PhysicsCategories.player1.rawValue | PhysicsCategories.powers.rawValue:
+            collideBigger(player: player1!)
             power?.removeFromParent()
         case PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player2!)
@@ -345,11 +345,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        let location = player?.position
-        camera!.position = player!.position
+        let location = player1?.position
+        camera!.position = player1!.position
         
         if circle.contains(location!) {
-            player!.isHidden = false
+            player1!.isHidden = false
         } else {
             self.isDead = true
             player?.run(fallDown, completion: {() -> Void in
@@ -358,6 +358,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.player!.isHidden = true
                 self.player?.removeFromParent()
                 self.scene!.view!.isPaused = true
+                self.player1!.isHidden = true
+                self.player1?.removeFromParent()
             })
             
 //            restartScene()
