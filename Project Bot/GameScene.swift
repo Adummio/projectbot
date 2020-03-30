@@ -15,19 +15,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Players & Movement
     var player : SKSpriteNode?
-    var player2 : SKSpriteNode?
-    var player3 : SKSpriteNode?
-    var player4 : SKSpriteNode?
+    var player2 : Player?
+    var player3 : Player?
+    var player4 : Player?
     let joystick = 🕹(withDiameter: 300)
     
-    // Enemies
-    
-    struct Enemy{
-        var enemy: SKSpriteNode?
-        var speed:CGFloat = 3.0
+    class Player: SKSpriteNode{
+        var playerSpeed: CGFloat = 3.0
     }
-    var enemies = [SKSpriteNode]()
-    let enemySpeed:CGFloat = 3.0
+    
+    var alivePlayers = [Player]()
     
     // Upgrades & Downgrades
     var faster : SKSpriteNode?
@@ -99,7 +96,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
          joystick.on(.move) { [unowned self] joystick in
-                   guard let player = self.player else { return }
+            guard let player = self.player else { return }
                    let pVelocity = joystick.velocity;
                    let speed = CGFloat(0.12)
                    player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
@@ -166,13 +163,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.position = position
         node.zPosition = 1
         addChild(node)
+//        alivePlayers?.append(player)
         player = node
     }
     
     func addPlayer2(atPosition position: CGPoint) {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
-        let node = SKSpriteNode(texture: texture)
+        let node = Player(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -183,12 +181,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.zPosition = 1
         addChild(node)
         player2 = node
+        alivePlayers.append(node)
     }
     
     func addPlayer3(atPosition position: CGPoint) {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
-        let node = SKSpriteNode(texture: texture)
+        let node = Player(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -199,12 +198,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.zPosition = 1
         addChild(node)
         player3 = node
+        alivePlayers.append(node)
     }
     
     func addPlayer4(atPosition position: CGPoint) {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
-        let node = SKSpriteNode(texture: texture)
+        let node = Player(texture: texture)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -215,6 +215,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.zPosition = 1
         addChild(node)
         player4 = node
+        alivePlayers.append(node)
     }
     
     func addCircle() {
@@ -261,7 +262,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func followPlayer(location: CGPoint, enemy: SKSpriteNode) {
+    func followPlayer(location: CGPoint, enemy: Player, index: Int) {
         let dx = (location.x) - enemy.position.x
         let dy = (location.y) - enemy.position.y
             let angle = atan2(dy, dx)
@@ -269,8 +270,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.zRotation = angle - 3 * .pi/2
                     
         //Seek
-        let velocityX = cos(angle) * enemySpeed
-        let velocityY = sin(angle) * enemySpeed
+        let velocityX = cos(angle) * enemy.playerSpeed
+        let velocityY = sin(angle) * enemy.playerSpeed
                     
         enemy.position.x += velocityX
         enemy.position.y += velocityY
@@ -278,12 +279,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if circle.contains(enemy.position) {
             enemy.isHidden = false
         } else {
-            self.resultLabel.isHidden = false
-            resultLabel.text = "You Won"
+            enemy.playerSpeed = 0
             enemy.run(fallDown, completion: {() -> Void in
-            self.scene!.view!.isPaused = true
-            enemy.isHidden = true
-            enemy.removeFromParent()
+                enemy.isHidden = true
+                enemy.removeFromParent()
+                self.alivePlayers.remove(at: index)
+                if self.alivePlayers.isEmpty{
+                    self.resultLabel.text = "You Won"
+                    self.resultLabel.isHidden = false
+                    self.scene!.view!.isPaused = true
+                }
             })
                         
         //   restartScene()
@@ -293,15 +298,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         // Player collides Powers
-        if collision == PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue {
+        
+        switch collision{
+        case PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player!)
-        } else if collision == PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue {
+        case PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player2!)
-        } else if collision == PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue {
+        case PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player3!)
-        } else if collision == PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue {
+        case PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player4!)
+        default:
+            break
         }
+//        if collision == PhysicsCategories.player.rawValue | PhysicsCategories.powers.rawValue {
+//            collideBigger(player: player.player!)
+//        } else if collision == PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue {
+//            collideBigger(player: player2.player!)
+//        } else if collision == PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue {
+//            collideBigger(player: player3.player!)
+//        } else if collision == PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue {
+//            collideBigger(player: player4.player!)
+//        }
         // Player collides Enemies (testing - it kinda works but needs more work)
 //        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
 //            enemy?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
@@ -319,9 +337,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if circle.contains(location!) {
             player!.isHidden = false
         } else {
-            self.resultLabel.isHidden = false
             resultLabel.text = "You Lost"
-            enemies.removeAll()
+            self.resultLabel.isHidden = false
             player?.run(fallDown, completion: {() -> Void in
                 self.scene!.view!.isPaused = true
                 self.player!.isHidden = true
@@ -330,9 +347,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
 //            restartScene()
         }
+        var index = 0
+        for player in alivePlayers{
+            print("porcodio")
+            followPlayer(location: location!, enemy: player, index: index)
+            index += 1
+        }
         
-        followPlayer(location: location!, enemy: player2!)
-        followPlayer(location: location!, enemy: player3!)
-        followPlayer(location: location!, enemy: player4!)
+//        followPlayer(location: location!, enemy: player3)
+//        followPlayer(location: location!, enemy: player4)
     }
 }
