@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Players & Movement
     var isDead = false
-    var player : SKSpriteNode?
+    var player1 : SKSpriteNode?
     var player2 : Player?
     var player3 : Player?
     var player4 : Player?
@@ -150,6 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         resultLabel.fontColor = UIColor.black
         addChild(resultLabel)
     }
+    
     
     func addPlayer1(atPosition position: CGPoint) {
         guard let image = UIImage(named: "mainChar") else { return }
@@ -352,11 +353,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player1!.isHidden = false
         } else {
             self.isDead = true
-            player?.run(fallDown, completion: {() -> Void in
+            player1?.run(fallDown, completion: {() -> Void in
                 self.resultLabel.text = "You Lost"
                 self.resultLabel.isHidden = false
-                self.player!.isHidden = true
-                self.player?.removeFromParent()
+                self.player1!.isHidden = true
+                self.player1?.removeFromParent()
                 self.scene!.view!.isPaused = true
                 self.player1!.isHidden = true
                 self.player1?.removeFromParent()
