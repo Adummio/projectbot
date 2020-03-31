@@ -8,10 +8,15 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     // Camera
     var cameraNode = SKCameraNode()
+    
+    // Sound
+    var bombSoundEffect: AVAudioPlayer?
     
     // Players & Movement
     var isDead = false
@@ -76,6 +81,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        playBackgroundMusic()
+        
         physicsWorld.contactDelegate = self
         addChild(cameraNode)
         camera = cameraNode
@@ -122,6 +129,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(shape)
     }
     
+    func playBackgroundMusic() {
+        let backgroundSound = SKAudioNode(fileNamed: "Street-Chaos.mp3")
+        self.addChild(backgroundSound)
+    }
+    
     func addJoystick() {
         // let image = UIImage(named: "")
         joystick.handleImage = nil
@@ -150,7 +162,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         resultLabel.fontColor = UIColor.black
         addChild(resultLabel)
     }
-    
     
     func addPlayer1(atPosition position: CGPoint) {
         guard let image = UIImage(named: "mainChar") else { return }
@@ -246,7 +257,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         power = node
     }
     
+    func playBombSound() {
+        let path = Bundle.main.path(forResource: "bombSound.mp3", ofType:nil)!
+        let url = URL(fileURLWithPath: path)
+
+        do {
+            bombSoundEffect = try AVAudioPlayer(contentsOf: url)
+            bombSoundEffect?.play()
+        } catch {
+            print("Can't find file")
+        }
+    }
+    
      func collideBigger(player: SKSpriteNode) {
+            self.playBombSound()
             player.physicsBody?.mass = 5
             let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
             let wait = SKAction.wait(forDuration: 5)

@@ -9,8 +9,11 @@
 import UIKit
 import SceneKit
 import SceneKit.ModelIO
+import AVFoundation
 
 class MenuViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    var backgroundMusic: AVAudioPlayer?
     
     var arrayRobot = [Robot(name: "Robotor", model: "robotBlue"), Robot(name: "Robbie The Destructor", model: "robotRed")]
     
@@ -18,11 +21,24 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        playBackgroundMusic()
     }
     
     func startRotation(node: SCNNode) {
         let rotate = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: CGFloat(0.01 * Double.pi), z: 0, duration: 0.1))
         node.runAction(rotate)
+    }
+    
+    func playBackgroundMusic() {
+        let path = Bundle.main.path(forResource: "intro.mp3", ofType:nil)!
+        let url = URL(fileURLWithPath: path)
+
+        do {
+            backgroundMusic = try AVAudioPlayer(contentsOf: url)
+            backgroundMusic?.play()
+        } catch {
+            // couldn't load file :(
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -76,6 +92,7 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        backgroundMusic?.stop()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let gameViewController = storyboard.instantiateViewController(withIdentifier: "gameViewController") as! GameViewController
         gameViewController.modalPresentationStyle = .fullScreen
