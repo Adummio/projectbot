@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 public typealias 🕹 = AnalogJoystick
 public typealias AnalogJoystickEventHandler = (AnalogJoystick) -> Void
@@ -194,6 +195,8 @@ open class AnalogJoystickComponent: SKSpriteNode {
 
 //MARK: - AnalogJoystick
 open class AnalogJoystick: SKNode {
+    var soundEffect: AVAudioPlayer?
+
     public var isMoveable = false
     public let handle: AnalogJoystickComponent
     public let base: AnalogJoystickComponent
@@ -217,13 +220,28 @@ open class AnalogJoystick: SKNode {
             if tracking {
                 displayLink.add(to: .current, forMode: loopMode)
                 runEvent(.begin)
+                self.playSoundEffect(name: "fdtractor")
             } else {
                 displayLink.remove(from: .current, forMode: loopMode)
                 runEvent(.end)
+                soundEffect?.stop()
                 let resetAction = SKAction.move(to: .zero, duration: 0.1)
                 resetAction.timingMode = .easeOut
                 handle.run(resetAction)
             }
+        }
+    }
+    
+    func playSoundEffect(name: String) {
+        let path = Bundle.main.path(forResource: "\(name).mp3", ofType:nil)!
+        let url = URL(fileURLWithPath: path)
+
+        do {
+            soundEffect = try AVAudioPlayer(contentsOf: url)
+            soundEffect?.play()
+            soundEffect?.numberOfLoops = -1
+        } catch {
+            print("Can't find file")
         }
     }
     

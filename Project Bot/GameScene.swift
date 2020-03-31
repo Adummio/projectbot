@@ -11,12 +11,13 @@ import GameplayKit
 import AVFoundation
 
 
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     // Camera
     var cameraNode = SKCameraNode()
     
     // Sound
-    var bombSoundEffect: AVAudioPlayer?
+    var soundEffect: AVAudioPlayer?
     
     // Players & Movement
     var isDead = false
@@ -132,6 +133,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func playBackgroundMusic() {
         let backgroundSound = SKAudioNode(fileNamed: "Street-Chaos.mp3")
         self.addChild(backgroundSound)
+        
+        playSoundEffect(name: "fight")
     }
     
     func addJoystick() {
@@ -257,20 +260,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         power = node
     }
     
-    func playBombSound() {
-        let path = Bundle.main.path(forResource: "bombSound.mp3", ofType:nil)!
+    func playSoundEffect(name: String) {
+        let path = Bundle.main.path(forResource: "\(name).mp3", ofType:nil)!
         let url = URL(fileURLWithPath: path)
 
         do {
-            bombSoundEffect = try AVAudioPlayer(contentsOf: url)
-            bombSoundEffect?.play()
+            soundEffect = try AVAudioPlayer(contentsOf: url)
+            soundEffect?.play()
         } catch {
             print("Can't find file")
         }
     }
     
      func collideBigger(player: SKSpriteNode) {
-            self.playBombSound()
+            self.playSoundEffect(name: "fireball")
             player.physicsBody?.mass = 5
             let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
             let wait = SKAction.wait(forDuration: 5)
@@ -330,6 +333,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.resultLabel.text = "You Won"
                     self.resultLabel.isHidden = false
                     self.scene!.view!.isPaused = true
+                    self.playSoundEffect(name: "crowdApplause")
                 }
             })
                         
@@ -386,6 +390,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.scene!.view!.isPaused = true
                 self.player1!.isHidden = true
                 self.player1?.removeFromParent()
+                
+                self.playSoundEffect(name: "crowdboo")
             })
             
 //            restartScene()
