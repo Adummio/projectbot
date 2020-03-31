@@ -279,7 +279,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func followPlayer(location: CGPoint, enemy: Player, index: Int) {
+    func followPlayer(location: CGPoint, enemy: Player) {
         let dx = (location.x) - enemy.position.x
         let dy = (location.y) - enemy.position.y
             let angle = atan2(dy, dx)
@@ -300,6 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemy.run(fallDown, completion: {() -> Void in
                 enemy.isHidden = true
                 enemy.removeFromParent()
+                guard let index = self.alivePlayers.firstIndex(of: enemy) else {return}
                 self.alivePlayers.remove(at: index)
                 if self.alivePlayers.isEmpty{
                     self.resultLabel.text = "You Won"
@@ -365,10 +366,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
 //            restartScene()
         }
-        var index = 0
         for player in alivePlayers{
-            followPlayer(location: location!, enemy: player, index: index)
-            index += 1
+            followPlayer(location: location!, enemy: player)
         }
         
     }
