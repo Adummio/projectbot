@@ -71,6 +71,7 @@ open class AnalogJoystickHiddenArea: SKShapeNode {
         let firstTouch = touches.first!
         currJoystick.position = firstTouch.location(in: self)
         currJoystick.isHidden = false
+        self.scene?.touchesBegan(touches, with: event)
         currJoystick.touchesBegan(touches, with: event)
     }
     

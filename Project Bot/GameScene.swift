@@ -94,9 +94,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addResultLabel()
         addJoystick()
         addPlayer1(atPosition: CGPoint(x: frame.midX-400, y: frame.midY-400))
-        addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
-        addPlayer3(atPosition: CGPoint(x: frame.midX+400, y: frame.midY+400))
-        addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
+//        addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
+//        addPlayer3(atPosition: CGPoint(x: frame.midX+400, y: frame.midY+400))
+//        addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
         addCircle()
         randomPowerSpawn()
         //        debugPlayableArea()
@@ -403,9 +403,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touches.count == 1{
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        if touch.tapCount == 2{
             print("dio")
+            let vector = CGVector(dx: -sin(player1!.zRotation)*200, dy: cos(player1!.zRotation)*200)
+            let push = SKAction.move(by: vector, duration: 0.5)
+            player1?.run(push)
         }
     }
 }
