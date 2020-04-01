@@ -70,12 +70,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: PHYSICS CATEGORIES
     
     enum PhysicsCategories: UInt32 {
-        case player1 = 0b00000001 // 1
-        case player2 = 0b00000010 // 2
-        case player3 = 0b00000100 // 4
-        case player4 = 0b00001000 // 8
-        case powers = 0b00010000 // 4
-        case arena = 0b00100000 // 8
+        case player1 = 0b00000001
+        case player2 = 0b00000010
+        case player3 = 0b00000100
+        case player4 = 0b00001100
+        case powers =  0b00010000
+        case arena =   0b00100000
     }
     
     // MARK: DIDMOVE
@@ -361,14 +361,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player4!)
             power?.removeFromParent()
+//        case PhysicsCategories.player1.rawValue | PhysicsCategories.player2.rawValue:
+////            if (joystick.velocity)*(pl) > player2.playerSpeed {
+//                print("1")
+//            } else
+//            player2?.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 100))
         default:
             break
         }
-        
-        // Player collides Enemies (testing - it kinda works but needs more work)
-        //        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
-        //            enemy?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
-        //        }
+
         
     }
     
