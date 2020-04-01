@@ -364,18 +364,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Player collides Powers
 //        let playerActualSpeed = sqrt((joystick.velocity.x * joystick.velocity.x) + (joystick.velocity.y * joystick.velocity.y)) * (player1!.playerSpeed)
         
+        func choosePower(player: Player) {
+            let power = Int.random(in: 1...2)
+            switch power {
+            case 1:
+                biggerPower(player: player)
+            case 2:
+                smallerPower(player: player)
+            default:
+                print("error")
+            }
+        }
+        
         switch collision{
         case PhysicsCategories.player1.rawValue | PhysicsCategories.powers.rawValue:
-            biggerPower(player: player1!)
+            choosePower(player: player1!)
             power?.removeFromParent()
         case PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue:
-            biggerPower(player: player2!)
+            choosePower(player: player2!)
             power?.removeFromParent()
         case PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue:
-            biggerPower(player: player3!)
+            choosePower(player: player3!)
             power?.removeFromParent()
         case PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue:
-            biggerPower(player: player4!)
+            choosePower(player: player4!)
             power?.removeFromParent()
         case PhysicsCategories.player1.rawValue | PhysicsCategories.player2.rawValue:
             handleCollision(player1: player1!, player2: player2!)
