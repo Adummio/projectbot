@@ -143,7 +143,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         joystick.handleImage = nil
         // let substrateImage = UIImage(named: "")
         joystick.baseImage = nil
-        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         let moveJoystickHiddenArea = AnalogJoystickHiddenArea(rect: CGRect(x: 0 - frame.midX, y: 0 - frame.midY, width: frame.size.width, height: frame.size.height))
         moveJoystickHiddenArea.zPosition = 1
         moveJoystickHiddenArea.joystick = joystick
@@ -405,7 +404,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touches.count == 2{
+        if touches.count == 1{
             print("dio")
         }
     }
