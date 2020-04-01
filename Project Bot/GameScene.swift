@@ -94,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addResultLabel()
         addJoystick()
         addPlayer1(atPosition: CGPoint(x: frame.midX-400, y: frame.midY-400))
-//        addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
+        addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
 //        addPlayer3(atPosition: CGPoint(x: frame.midX+400, y: frame.midY+400))
 //        addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
         addCircle()
@@ -364,9 +364,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             power?.removeFromParent()
         case PhysicsCategories.player1.rawValue | PhysicsCategories.player2.rawValue:
             if playerActualSpeed > player2!.playerSpeed {
-                
+                let vector = CGVector(dx: -sin(player2!.zRotation)*200, dy: cos(player2!.zRotation)*200)
+                let push = SKAction.move(by: vector, duration: 0.5)
+                player2?.run(push)
             } else {
-                
+                let vector = CGVector(dx: -sin(player1!.zRotation)*200, dy: cos(player1!.zRotation)*200)
+                let push = SKAction.move(by: vector, duration: 0.5)
+                player1?.run(push)
             }
 //            player2?.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 100))
         default:
