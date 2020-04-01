@@ -134,6 +134,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(shape)
     }
     
+    func playSoundEffect(name: String) {
+        let path = Bundle.main.path(forResource: "\(name).mp3", ofType:nil)!
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            soundEffect = try AVAudioPlayer(contentsOf: url)
+            soundEffect?.play()
+        } catch {
+            print("Can't find file")
+        }
+    }
+    
     func playBackgroundMusic() {
         let backgroundSound = SKAudioNode(fileNamed: "Street-Chaos.mp3")
         self.addChild(backgroundSound)
@@ -249,7 +261,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         arena = circle
     }
     
-    func addBigger(atPosition position: CGPoint) {
+    func addPower(atPosition position: CGPoint) {
         guard let image = UIImage(named: "bigger") else { return }
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
@@ -264,19 +276,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         power = node
     }
     
-    func playSoundEffect(name: String) {
-        let path = Bundle.main.path(forResource: "\(name).mp3", ofType:nil)!
-        let url = URL(fileURLWithPath: path)
-        
-        do {
-            soundEffect = try AVAudioPlayer(contentsOf: url)
-            soundEffect?.play()
-        } catch {
-            print("Can't find file")
-        }
+    func smallerPower(player: SKSpriteNode) {
+        self.playSoundEffect(name: "fireball")
+        player.physicsBody?.mass = 0.2
+        let scale = SKAction.scale(to: CGSize(width: 32, height: 32), duration: 0.5)
+        let wait = SKAction.wait(forDuration: 5)
+        let seq = SKAction.sequence([scale,wait])
+        player.run(seq, completion: {() -> Void in
+            player.physicsBody?.mass = 0.5
+            player.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+        })
     }
     
-    func collideBigger(player: SKSpriteNode) {
+    func biggerPower(player: SKSpriteNode) {
         self.playSoundEffect(name: "fireball")
         player.physicsBody?.mass = 5
         let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
@@ -296,7 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let wait = SKAction.wait(forDuration: 10, withRange: 15)
         let spawn = SKAction.run {
             self.power?.removeFromParent()
-            self.addBigger(atPosition: CGPoint(x: CGFloat.random(in: minX..<maxX), y: CGFloat.random(in: minY..<maxY)))
+            self.addPower(atPosition: CGPoint(x: CGFloat.random(in: minX..<maxX), y: CGFloat.random(in: minY..<maxY)))
         }
         let sequence = SKAction.sequence([wait, spawn])
         self.run(SKAction.repeatForever(sequence))
@@ -354,16 +366,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch collision{
         case PhysicsCategories.player1.rawValue | PhysicsCategories.powers.rawValue:
-            collideBigger(player: player1!)
+            biggerPower(player: player1!)
             power?.removeFromParent()
         case PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue:
-            collideBigger(player: player2!)
+            biggerPower(player: player2!)
             power?.removeFromParent()
         case PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue:
-            collideBigger(player: player3!)
+            biggerPower(player: player3!)
             power?.removeFromParent()
         case PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue:
-            collideBigger(player: player4!)
+            biggerPower(player: player4!)
             power?.removeFromParent()
         case PhysicsCategories.player1.rawValue | PhysicsCategories.player2.rawValue:
             handleCollision(player1: player1!, player2: player2!)
