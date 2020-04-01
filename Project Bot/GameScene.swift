@@ -347,6 +347,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         // Player collides Powers
+        let playerActualSpeed = sqrt((joystick.velocity.x * joystick.velocity.x) + (joystick.velocity.y * joystick.velocity.y)) * (player1!.playerSpeed)
         
         switch collision{
         case PhysicsCategories.player1.rawValue | PhysicsCategories.powers.rawValue:
@@ -361,16 +362,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case PhysicsCategories.player4.rawValue | PhysicsCategories.powers.rawValue:
             collideBigger(player: player4!)
             power?.removeFromParent()
-//        case PhysicsCategories.player1.rawValue | PhysicsCategories.player2.rawValue:
-////            if (joystick.velocity)*(pl) > player2.playerSpeed {
-//                print("1")
-//            } else
+        case PhysicsCategories.player1.rawValue | PhysicsCategories.player2.rawValue:
+            if playerActualSpeed > player2!.playerSpeed {
+                
+            } else {
+                
+            }
 //            player2?.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 100))
         default:
             break
         }
-
-        
     }
     
     // MARK: UPDATE
