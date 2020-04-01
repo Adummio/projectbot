@@ -21,7 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Players & Movement
     var isDead = false
-    var player1 : SKSpriteNode?
+    var player1 : Player?
     var player2 : Player?
     var player3 : Player?
     var player4 : Player?
@@ -30,7 +30,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     class Player: SKSpriteNode{
         var playerSpeed: CGFloat = 3.0
     }
-
+    
     var alivePlayers = [Player]()
     
     // Upgrades & Downgrades
@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Labels
     let resultLabel = SKLabelNode(fontNamed:"Helvetica")
-
+    
     // Arena
     var arena: SKShapeNode?
     let arenaRadius: CGFloat = 700.0
@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
-
+        
         view.isMultipleTouchEnabled = true
         addBackground()
         addResultLabel()
@@ -99,18 +99,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
         addCircle()
         randomPowerSpawn()
-//        debugPlayableArea()
+        //        debugPlayableArea()
         
         
         
-        
-         joystick.on(.move) { [unowned self] joystick in
+        joystick.on(.move) { [unowned self] joystick in
             guard let player = self.player1 else { return }
-                   let pVelocity = joystick.velocity;
-            let speed = self.isDead ? 0.0 : CGFloat(0.12)
-                   player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
-                   player.zRotation = joystick.angular
-               }
+            let pVelocity = joystick.velocity;
+            let speed = self.isDead ? 0.0 : CGFloat(0.12) * player.playerSpeed
+            player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
+            if joystick.angular != 0{
+                player.zRotation = joystick.angular
+            }
+        }
         
         //        joystick.on(.end) { [unowned self] _ in
         //            let actions = [
@@ -169,7 +170,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addPlayer1(atPosition position: CGPoint) {
         guard let image = UIImage(named: "mainChar") else { return }
         let texture = SKTexture(image: image)
-        let node = SKSpriteNode(texture: texture)
+        let node = Player(texture: texture)
+        node.playerSpeed = 1.0
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -179,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.position = position
         node.zPosition = 1
         addChild(node)
-//        alivePlayers?.append(player)
+        //        alivePlayers?.append(player)
         player1 = node
     }
     
@@ -263,7 +265,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func playSoundEffect(name: String) {
         let path = Bundle.main.path(forResource: "\(name).mp3", ofType:nil)!
         let url = URL(fileURLWithPath: path)
-
+        
         do {
             soundEffect = try AVAudioPlayer(contentsOf: url)
             soundEffect?.play()
@@ -272,17 +274,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-     func collideBigger(player: SKSpriteNode) {
-            self.playSoundEffect(name: "fireball")
-            player.physicsBody?.mass = 5
-            let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
-            let wait = SKAction.wait(forDuration: 5)
-            let seq = SKAction.sequence([scale,wait])
-            player.run(seq, completion: {() -> Void in
-                player.physicsBody?.mass = 0.5
-                player.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
-            })
-        }
+    func collideBigger(player: SKSpriteNode) {
+        self.playSoundEffect(name: "fireball")
+        player.physicsBody?.mass = 5
+        let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
+        let wait = SKAction.wait(forDuration: 5)
+        let seq = SKAction.sequence([scale,wait])
+        player.run(seq, completion: {() -> Void in
+            player.physicsBody?.mass = 0.5
+            player.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+        })
+    }
     
     func randomPowerSpawn() {
         let minX = frame.midX - 300
@@ -309,17 +311,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func followPlayer(location: CGPoint, enemy: Player) {
         let dx = (location.x) - enemy.position.x
         let dy = (location.y) - enemy.position.y
-            let angle = atan2(dy, dx)
-                    
+        let angle = atan2(dy, dx)
+        
         enemy.zRotation = angle - 3 * .pi/2
-                    
+        
         //Seek
         let velocityX = cos(angle) * enemy.playerSpeed
         let velocityY = sin(angle) * enemy.playerSpeed
-                    
+        
         enemy.position.x += velocityX
         enemy.position.y += velocityY
-                    
+        
         if circle.contains(enemy.position) {
             enemy.isHidden = false
         } else {
@@ -336,12 +338,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.playSoundEffect(name: "crowdApplause")
                 }
             })
-                        
-        //   restartScene()
-            }
+            
+            //   restartScene()
+        }
     }
     
-  // MARK: DIDBEGIN COLLIDE
+    // MARK: DIDBEGIN COLLIDE
     
     func didBegin(_ contact: SKPhysicsContact) {
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
@@ -363,15 +365,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             break
         }
-
+        
         // Player collides Enemies (testing - it kinda works but needs more work)
-//        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
-//            enemy?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
-//        }
+        //        if (contact.bodyA.node?.physicsBody?.categoryBitMask == PhysicsCategories.player.rawValue) && (contact.bodyB.node?.physicsBody?.categoryBitMask == PhysicsCategories.enemies.rawValue) {
+        //            enemy?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
+        //        }
         
     }
     
- // MARK: UPDATE
+    // MARK: UPDATE
     
     override func update(_ currentTime: TimeInterval) {
         
@@ -394,11 +396,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.playSoundEffect(name: "crowdboo")
             })
             
-//            restartScene()
+            //            restartScene()
         }
         for player in alivePlayers{
             followPlayer(location: location!, enemy: player)
         }
         
+    }
+    
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touches.count == 2{
+            print("dio")
+        }
     }
 }
