@@ -300,6 +300,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    // NOT FULLY FUNCTIONAL YET
+    func fasterPower(player: Player) {
+        self.playSoundEffect(name: "fireball")
+        
+        let fast = SKAction.run {
+            player.playerSpeed = 4
+        }
+        let wait = SKAction.wait(forDuration: 1.5)
+        let seq = SKAction.sequence([fast,wait])
+        player.run(seq, completion: {() -> Void in
+            player.run(SKAction.run {
+               player.playerSpeed = 3
+            })
+        })
+    }
+    
     func randomPowerSpawn() {
         let minX = frame.midX - 300
         let maxX = frame.midX + 300
@@ -365,12 +381,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        let playerActualSpeed = sqrt((joystick.velocity.x * joystick.velocity.x) + (joystick.velocity.y * joystick.velocity.y)) * (player1!.playerSpeed)
         
         func choosePower(player: Player) {
-            let power = Int.random(in: 1...2)
+//            let power = 3
+            let power = Int.random(in: 1...3)
             switch power {
             case 1:
                 biggerPower(player: player)
             case 2:
                 smallerPower(player: player)
+            case 3:
+//                fasterPower(player: player)
+                print("faster")
             default:
                 print("error")
             }
