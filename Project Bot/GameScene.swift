@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     class Player: SKSpriteNode{
         var playerSpeed: CGFloat = 3.0
+        var isPushing: Bool = false
     }
     
     var alivePlayers = [Player]()
@@ -107,9 +108,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             guard let player = self.player1 else { return }
             let pVelocity = joystick.velocity;
             let speed = self.isDead ? 0.0 : CGFloat(0.12) * player.playerSpeed
-            player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
-            if joystick.angular != 0{
-                player.zRotation = joystick.angular
+            if !player.isPushing{
+               player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
+                if joystick.angular != 0{
+                    player.zRotation = joystick.angular
+                }
             }
         }
         
@@ -347,7 +350,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         // Player collides Powers
-        let playerActualSpeed = sqrt((joystick.velocity.x * joystick.velocity.x) + (joystick.velocity.y * joystick.velocity.y)) * (player1!.playerSpeed)
+//        let playerActualSpeed = sqrt((joystick.velocity.x * joystick.velocity.x) + (joystick.velocity.y * joystick.velocity.y)) * (player1!.playerSpeed)
         
         switch collision{
         case PhysicsCategories.player1.rawValue | PhysicsCategories.powers.rawValue:
@@ -363,15 +366,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             collideBigger(player: player4!)
             power?.removeFromParent()
         case PhysicsCategories.player1.rawValue | PhysicsCategories.player2.rawValue:
-            if playerActualSpeed > player2!.playerSpeed {
-                let vector = CGVector(dx: -sin(player2!.zRotation)*200, dy: cos(player2!.zRotation)*200)
-                let push = SKAction.move(by: vector, duration: 0.5)
-                player2?.run(push)
-            } else {
-                let vector = CGVector(dx: -sin(player1!.zRotation)*200, dy: cos(player1!.zRotation)*200)
-                let push = SKAction.move(by: vector, duration: 0.5)
-                player1?.run(push)
-            }
+            handleCollision(player1: player1!, player2: player2!)
+//            if playerActualSpeed > player2!.playerSpeed {
+//                let vector = CGVector(dx: -sin(player2!.zRotation)*200, dy: cos(player2!.zRotation)*200)
+//                let push = SKAction.move(by: vector, duration: 0.5)
+//                player2?.run(push)
+//            } else {
+//                let vector = CGVector(dx: -sin(player1!.zRotation)*200, dy: cos(player1!.zRotation)*200)
+//                let push = SKAction.move(by: vector, duration: 0.5)
+//                player1?.run(push)
+//            }
 //            player2?.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 100))
         default:
             break
@@ -412,10 +416,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         if touch.tapCount == 2{
-            print("dio")
-            let vector = CGVector(dx: -sin(player1!.zRotation)*200, dy: cos(player1!.zRotation)*200)
+            push(player: player1!)
+        }
+    }
+    
+    func push(player: Player){
+        let xComponent = -sin(player1!.zRotation)*200
+        let yComponent = cos(player1!.zRotation)*200
+        let vector = CGVector(dx: xComponent, dy: yComponent)
+        let push = SKAction.move(by: vector, duration: 0.5)
+        push.timingMode = .easeInEaseOut
+        player.isPushing = true
+        player.run(push, completion: {() -> Void in
+            player.isPushing = false
+        })
+    }
+    
+    func handleCollision(player1: Player, player2: Player){
+        
+        if player1.isPushing && player2.isPushing{
+            return
+        }else if player1.isPushing{
+            let rotation = player1.zRotation
+            let xComponent = -sin(rotation)
+            let yComponent = cos(rotation)
+            let vector = CGVector(dx: (xComponent)*100, dy: 100*(yComponent))
             let push = SKAction.move(by: vector, duration: 0.5)
-            player1?.run(push)
+            push.timingMode = .easeInEaseOut
+            player2.run(push)
+        }else if player2.isPushing{
+            let rotation = player2.zRotation
+            let xComponent = -sin(rotation)*100
+            let yComponent = cos(rotation)*100
+            let vector = CGVector(dx: xComponent, dy: yComponent)
+            let push = SKAction.move(by: vector, duration: 0.5)
+            push.timingMode = .easeInEaseOut
+            player1.run(push)
         }
     }
 }
