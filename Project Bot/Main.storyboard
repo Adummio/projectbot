@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="D2h-cL-koP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="D2h-cL-koP">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -26,34 +26,34 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick your robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTC-wv-lUI">
-                                        <rect key="frame" x="133" y="68" width="148.5" height="21"/>
+                                        <rect key="frame" x="35" y="51" width="183" height="37"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="tYJ-7T-5Y9"/>
+                                            <constraint firstAttribute="height" constant="37" id="tYJ-7T-5Y9"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                        <fontDescription key="fontDescription" name="Rockwell-Regular" family="Rockwell" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdW-Yj-NnK">
-                                        <rect key="frame" x="336" y="43.5" width="70" height="70"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="///////" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eg4-5q-bZA">
+                                        <rect key="frame" x="35" y="85" width="80" height="37"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="CZE-kC-4QH"/>
-                                            <constraint firstAttribute="width" constant="70" id="iN2-uF-osj"/>
+                                            <constraint firstAttribute="height" constant="37" id="wcc-9X-bq0"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="gear" catalog="system"/>
-                                    </button>
+                                        <fontDescription key="fontDescription" name="Rockwell-Regular" family="Rockwell" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="centerX" secondItem="yfL-tH-cPg" secondAttribute="centerX" id="DlY-bA-GXX"/>
+                                    <constraint firstItem="eg4-5q-bZA" firstAttribute="leading" secondItem="CTC-wv-lUI" secondAttribute="leading" id="5JC-56-DcJ"/>
+                                    <constraint firstItem="eg4-5q-bZA" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="85" id="BAe-rL-8bA"/>
+                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="centerX" secondItem="yfL-tH-cPg" secondAttribute="centerX" constant="-80.5" id="DlY-bA-GXX"/>
                                     <constraint firstAttribute="height" constant="117" id="ENF-ft-zDU"/>
-                                    <constraint firstAttribute="trailing" secondItem="pdW-Yj-NnK" secondAttribute="trailing" constant="8" id="GSt-gu-bn7"/>
-                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="68" id="MeD-iZ-HMg"/>
+                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="51" id="MeD-iZ-HMg"/>
+                                    <constraint firstItem="eg4-5q-bZA" firstAttribute="leading" secondItem="yfL-tH-cPg" secondAttribute="leading" constant="35" id="ZoN-kk-RsF"/>
                                     <constraint firstAttribute="trailing" secondItem="VuT-wZ-74k" secondAttribute="trailing" id="ai7-ff-esD"/>
                                     <constraint firstItem="VuT-wZ-74k" firstAttribute="leading" secondItem="yfL-tH-cPg" secondAttribute="leading" id="c4V-Ju-OEg"/>
-                                    <constraint firstItem="pdW-Yj-NnK" firstAttribute="centerY" secondItem="CTC-wv-lUI" secondAttribute="centerY" id="goD-vn-aKv"/>
                                     <constraint firstItem="VuT-wZ-74k" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="35" id="ujG-mj-otw"/>
                                 </constraints>
                             </view>
@@ -84,9 +84,9 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="339" height="578"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </sceneKitView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-6F-S4c">
-                                                    <rect key="frame" x="115.5" y="528" width="108.5" height="25"/>
-                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="23"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-6F-S4c">
+                                                    <rect key="frame" x="102" y="525" width="135" height="32"/>
+                                                    <fontDescription key="fontDescription" name="Rockwell-Regular" family="Rockwell" pointSize="23"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -95,7 +95,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="P4m-og-zSN" secondAttribute="trailing" id="1F1-kK-w4b"/>
                                                 <constraint firstAttribute="bottom" secondItem="P4m-og-zSN" secondAttribute="bottom" id="4tb-49-GXz"/>
                                                 <constraint firstAttribute="trailing" secondItem="vbH-Jv-Uay" secondAttribute="trailing" id="CKN-im-0jB"/>
-                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="25" id="Nff-CT-p1n"/>
+                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="21" id="Nff-CT-p1n"/>
                                                 <constraint firstItem="vbH-Jv-Uay" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="OYJ-Kp-Kze"/>
                                                 <constraint firstItem="zsn-6F-S4c" firstAttribute="centerX" secondItem="5NB-KH-ttf" secondAttribute="centerX" id="OYk-ZF-kOd"/>
                                                 <constraint firstItem="P4m-og-zSN" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="OfR-Uh-e8y"/>
@@ -123,9 +123,11 @@
                             <constraint firstItem="P5e-I9-Cea" firstAttribute="leading" secondItem="sWA-o1-ygx" secondAttribute="leading" id="1e7-Rh-ASd"/>
                             <constraint firstItem="yfL-tH-cPg" firstAttribute="leading" secondItem="sWA-o1-ygx" secondAttribute="leading" id="TcZ-Z2-b5m"/>
                             <constraint firstItem="yfL-tH-cPg" firstAttribute="trailing" secondItem="sWA-o1-ygx" secondAttribute="trailing" id="VZg-AQ-k9h"/>
+                            <constraint firstItem="CTC-wv-lUI" firstAttribute="top" secondItem="t78-9D-fIr" secondAttribute="top" constant="51" id="W46-zT-KKK"/>
                             <constraint firstItem="P5e-I9-Cea" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="bottom" constant="80" id="Y7R-Gf-EGj"/>
                             <constraint firstItem="P5e-I9-Cea" firstAttribute="trailing" secondItem="sWA-o1-ygx" secondAttribute="trailing" id="goZ-kr-NG8"/>
                             <constraint firstItem="yfL-tH-cPg" firstAttribute="top" secondItem="t78-9D-fIr" secondAttribute="top" id="oP8-jL-XTB"/>
+                            <constraint firstItem="CTC-wv-lUI" firstAttribute="centerX" secondItem="t78-9D-fIr" secondAttribute="centerX" constant="-80.5" id="tjJ-6f-waO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="sWA-o1-ygx"/>
                     </view>
@@ -155,7 +157,6 @@
     </scenes>
     <resources>
         <image name="cellBackground" width="688" height="1486"/>
-        <image name="gear" catalog="system" width="64" height="58"/>
         <image name="titleBackground" width="1312" height="624"/>
     </resources>
 </document>

@@ -105,4 +105,8 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
         gameViewController.modalPresentationStyle = .fullScreen
         self.present(gameViewController, animated: true, completion: nil)
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }
