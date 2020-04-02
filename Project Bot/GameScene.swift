@@ -389,7 +389,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 smallerPower(player: player)
             case 3:
                 fasterPower(player: player)
-                print("faster")
             default:
                 print("error")
             }
@@ -397,12 +396,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch collision{
         case PhysicsCategories.player1.rawValue | PhysicsCategories.powers.rawValue:
-//            choosePower(player: player1!)
-            fasterPower(player: player1!)
+            choosePower(player: player1!)
             power?.removeFromParent()
         case PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue:
-//            choosePower(player: player2!)
-            fasterPower(player: player2!)
+            choosePower(player: player2!)
             power?.removeFromParent()
         case PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue:
             choosePower(player: player3!)
