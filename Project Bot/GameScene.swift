@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let joystick = 🕹(withDiameter: 300)
     
     class Player: SKSpriteNode{
-        var playerSpeed: CGFloat = 3.0
+        var playerSpeed: CGFloat = 4.9
         var isPushing: Bool = false
     }
     
@@ -107,6 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         joystick.on(.move) { [unowned self] joystick in
             guard let player = self.player1 else { return }
             let pVelocity = joystick.velocity;
+            let module = sqrt(pVelocity.x*pVelocity.x + pVelocity.y*pVelocity.y)
             let speed = self.isDead ? 0.0 : CGFloat(0.12) * player.playerSpeed
             if !player.isPushing{
                player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
@@ -203,6 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
+//        node.playerSpeed = joystick.handle.diameter/2
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -482,13 +484,69 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if player1.isPushing && player2.isPushing{
             return
         }else if player1.isPushing{
-            let rotation = player2.zRotation
-            let xComponent = -sin(rotation)
-            let yComponent = cos(rotation)
-            let vector = CGVector(dx: (xComponent)*100, dy: 100*(yComponent))
-            let push = SKAction.move(by: vector, duration: 0.5)
-            push.timingMode = .easeInEaseOut
-            player2.run(push)
+            let normalV = CGVector(dx: player2.position.x - player1.position.x, dy: player2.position.y - player1.position.y)
+            let normalVModule = sqrt(normalV.dx * normalV.dx + normalV.dy * normalV.dy)
+            let unitNormalV = CGVector(dx: normalV.dx / normalVModule, dy: normalV.dy / normalVModule)
+            let unitTangentV = CGVector(dx: -unitNormalV.dy, dy: -unitNormalV.dx)
+            
+            let p1Rotation = player1.zRotation
+            let p1XComponent = -sin(p1Rotation) * 400
+            let p1YComponent = cos(p1Rotation) * 400
+            
+            let p1XNScalar = unitNormalV.dx * p1XComponent
+            let p1YNScalar = unitNormalV.dy * p1YComponent
+            let p1ScalarNComponent = sqrt( p1XNScalar * p1XNScalar + p1YNScalar * p1YNScalar )
+            
+            let p1XTScalar = unitTangentV.dx * p1XComponent
+            let p1YTScalar = unitTangentV.dy * p1YComponent
+            let p1ScalarTComponent = sqrt( p1XTScalar * p1XTScalar + p1YTScalar * p1YTScalar )
+            
+            let p1Mass = player1.physicsBody!.mass
+            
+            
+            let p2Rotation = player2.zRotation
+            let p2XComponent = -sin(p2Rotation)
+            let p2YComponent = cos(p2Rotation)
+            
+            let p2XNScalar = unitNormalV.dx * (100 * p2XComponent)
+            let p2YNScalar = unitNormalV.dy * (100 * p2YComponent)
+            let p2ScalarNComponent = sqrt( p2XNScalar * p2XNScalar + p2YNScalar * p2YNScalar )
+            
+            let p2XTScalar = unitTangentV.dx + (100 * p2XComponent)
+            let p2YTScalar = unitTangentV.dy + (100 * p2YComponent)
+            let p2ScalarTComponent = sqrt( p2XTScalar * p2XTScalar + p2YTScalar * p2YTScalar )
+            
+            let p2Mass = player2.physicsBody!.mass
+            
+            let p1FinalScalarTComponent = p1ScalarTComponent
+            let p2FinalScalarTComponent = p2ScalarTComponent
+            
+            
+            let p1FinalScalarNComponent = ((p1ScalarNComponent * (p1Mass - p2Mass)) + 2 * p2Mass * p2ScalarNComponent) / (p1Mass + p2Mass)
+            let p2FinalScalarNComponent = ((p2ScalarNComponent * (p2Mass - p1Mass)) + 2 * p1Mass * p1ScalarNComponent) / (p2Mass + p1Mass)
+            
+            
+            let p1FinalN = CGVector(dx: p1FinalScalarNComponent * unitNormalV.dx, dy: p1FinalScalarNComponent * unitNormalV.dy)
+            let p1FinalT = CGVector(dx: p1FinalScalarTComponent * unitTangentV.dx, dy: p1FinalScalarTComponent * unitTangentV.dy)
+            let p2FinalN = CGVector(dx: p2FinalScalarNComponent * unitNormalV.dx, dy: p2FinalScalarNComponent * unitNormalV.dy)
+            let p2FinalT = CGVector(dx: p2FinalScalarTComponent * unitTangentV.dx, dy: p2FinalScalarTComponent * unitTangentV.dy)
+            
+            let p1MoveVector = CGVector(dx: p1FinalN.dx + p1FinalT.dx, dy: p1FinalT.dy + p1FinalT.dy)
+            let p2MoveVector = CGVector(dx: p2FinalN.dx + p2FinalT.dx, dy: p2FinalT.dy + p2FinalT.dy)
+            
+            let p1PushP2 = SKAction.move(by: p2MoveVector, duration: 0.5)
+            p1PushP2.timingMode = .easeInEaseOut
+            player2.run(p1PushP2)
+            
+            let p2PushP1 = SKAction.move(by: p1MoveVector, duration: 0.5)
+            p2PushP1.timingMode = .easeInEaseOut
+            player1.run(p2PushP1)
+            
+
+//            let vector = CGVector(dx: (xComponent)*100, dy: 100*(yComponent))
+//            let push = SKAction.move(by: vector, duration: 0.5)
+//            push.timingMode = .easeInEaseOut
+//            player2.run(push)
         }else if player2.isPushing{
             let rotation = player1.zRotation
             let xComponent = -sin(rotation)*100
