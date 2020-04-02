@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let joystick = 🕹(withDiameter: 300)
     
     class Player: SKSpriteNode{
-        var playerSpeed: CGFloat = 3.0
+        var playerSpeed: CGFloat = 4.9
         var isPushing: Bool = false
     }
     

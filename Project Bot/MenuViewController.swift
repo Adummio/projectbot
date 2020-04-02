@@ -36,9 +36,15 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
         do {
             backgroundMusic = try AVAudioPlayer(contentsOf: url)
             backgroundMusic?.play()
+            backgroundMusic?.numberOfLoops = -1
         } catch {
-            // couldn't load file :(
+        
+            
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -49,6 +55,7 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = robotCollectionView.dequeueReusableCell(withReuseIdentifier: "robotCell", for: indexPath) as! RobotCell
         
         cell.robotNameLabel.text = arrayRobot[indexPath.row].name
+        cell.layer.cornerRadius = 15
         
         let scene = SCNScene(named: "art.scnassets/objects.scn")!
         cell.sceneView.scene = scene
@@ -81,7 +88,7 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let newNode  = SCNNode(mdlObject: object)
         
         newNode.scale = SCNVector3Make(0.07, 0.07, 0.07)
-    //    newNode.position = SCNVector3Make(-2.3, 0.7, -1)
+        newNode.position = SCNVector3Make(0, -0.4, 0)
         
         cell.sceneView.autoenablesDefaultLighting = true
         

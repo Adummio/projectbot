@@ -16,34 +16,77 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P5e-I9-Cea">
-                                <rect key="frame" x="0.0" y="168" width="414" height="577"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfL-tH-cPg">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="117"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="titleBackground" translatesAutoresizingMaskIntoConstraints="NO" id="VuT-wZ-74k">
+                                        <rect key="frame" x="0.0" y="35" width="414" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="RBr-2K-SWS"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick your robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTC-wv-lUI">
+                                        <rect key="frame" x="133" y="68" width="148.5" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="tYJ-7T-5Y9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdW-Yj-NnK">
+                                        <rect key="frame" x="336" y="43.5" width="70" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="CZE-kC-4QH"/>
+                                            <constraint firstAttribute="width" constant="70" id="iN2-uF-osj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="gear" catalog="system"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="centerX" secondItem="yfL-tH-cPg" secondAttribute="centerX" id="DlY-bA-GXX"/>
+                                    <constraint firstAttribute="height" constant="117" id="ENF-ft-zDU"/>
+                                    <constraint firstAttribute="trailing" secondItem="pdW-Yj-NnK" secondAttribute="trailing" constant="8" id="GSt-gu-bn7"/>
+                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="68" id="MeD-iZ-HMg"/>
+                                    <constraint firstAttribute="trailing" secondItem="VuT-wZ-74k" secondAttribute="trailing" id="ai7-ff-esD"/>
+                                    <constraint firstItem="VuT-wZ-74k" firstAttribute="leading" secondItem="yfL-tH-cPg" secondAttribute="leading" id="c4V-Ju-OEg"/>
+                                    <constraint firstItem="pdW-Yj-NnK" firstAttribute="centerY" secondItem="CTC-wv-lUI" secondAttribute="centerY" id="goD-vn-aKv"/>
+                                    <constraint firstItem="VuT-wZ-74k" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="35" id="ujG-mj-otw"/>
+                                </constraints>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="P5e-I9-Cea">
+                                <rect key="frame" x="0.0" y="197" width="414" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="600" id="Vsu-ER-g7C"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BGr-Ou-cqE">
-                                    <size key="itemSize" width="353" height="556"/>
+                                    <size key="itemSize" width="339" height="578"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="robotCell" id="OQT-19-vgY" customClass="RobotCell" customModule="Project_Bot" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="10.5" width="353" height="556"/>
+                                        <rect key="frame" x="0.0" y="11" width="339" height="578"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5NB-KH-ttf">
-                                            <rect key="frame" x="0.0" y="0.0" width="353" height="556"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="339" height="578"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgRobotMenu" translatesAutoresizingMaskIntoConstraints="NO" id="vbH-Jv-Uay">
-                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="556"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cellBackground" translatesAutoresizingMaskIntoConstraints="NO" id="vbH-Jv-Uay">
+                                                    <rect key="frame" x="0.0" y="0.0" width="339" height="578"/>
                                                 </imageView>
                                                 <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4m-og-zSN">
-                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="556"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="339" height="578"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </sceneKitView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-6F-S4c">
-                                                    <rect key="frame" x="108" y="464.5" width="137" height="31.5"/>
-                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="29"/>
+                                                    <rect key="frame" x="115.5" y="528" width="108.5" height="25"/>
+                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="23"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -52,16 +95,16 @@
                                                 <constraint firstAttribute="trailing" secondItem="P4m-og-zSN" secondAttribute="trailing" id="1F1-kK-w4b"/>
                                                 <constraint firstAttribute="bottom" secondItem="P4m-og-zSN" secondAttribute="bottom" id="4tb-49-GXz"/>
                                                 <constraint firstAttribute="trailing" secondItem="vbH-Jv-Uay" secondAttribute="trailing" id="CKN-im-0jB"/>
-                                                <constraint firstItem="zsn-6F-S4c" firstAttribute="centerX" secondItem="5NB-KH-ttf" secondAttribute="centerX" id="MsY-wy-hgs"/>
+                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="25" id="Nff-CT-p1n"/>
                                                 <constraint firstItem="vbH-Jv-Uay" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="OYJ-Kp-Kze"/>
+                                                <constraint firstItem="zsn-6F-S4c" firstAttribute="centerX" secondItem="5NB-KH-ttf" secondAttribute="centerX" id="OYk-ZF-kOd"/>
                                                 <constraint firstItem="P4m-og-zSN" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="OfR-Uh-e8y"/>
-                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="60" id="fE5-oS-a1l"/>
                                                 <constraint firstItem="P4m-og-zSN" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="wb4-mp-nkb"/>
                                                 <constraint firstItem="vbH-Jv-Uay" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="xcJ-3M-Ylw"/>
                                                 <constraint firstAttribute="bottom" secondItem="vbH-Jv-Uay" secondAttribute="bottom" id="xqR-MI-9jp"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="353" height="556"/>
+                                        <size key="customSize" width="339" height="578"/>
                                         <connections>
                                             <outlet property="backgroundCell" destination="vbH-Jv-Uay" id="AkP-PE-wWU"/>
                                             <outlet property="robotNameLabel" destination="zsn-6F-S4c" id="o37-Rn-Sze"/>
@@ -74,43 +117,14 @@
                                     <outlet property="delegate" destination="D2h-cL-koP" id="K32-4Z-JfL"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfL-tH-cPg">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="117"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick your robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTC-wv-lUI">
-                                        <rect key="frame" x="133" y="68" width="148.5" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="tYJ-7T-5Y9"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdW-Yj-NnK">
-                                        <rect key="frame" x="336" y="43.5" width="70" height="70"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="CZE-kC-4QH"/>
-                                            <constraint firstAttribute="width" constant="70" id="iN2-uF-osj"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="gear" catalog="system"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="centerX" secondItem="yfL-tH-cPg" secondAttribute="centerX" id="DlY-bA-GXX"/>
-                                    <constraint firstAttribute="height" constant="117" id="ENF-ft-zDU"/>
-                                    <constraint firstAttribute="trailing" secondItem="pdW-Yj-NnK" secondAttribute="trailing" constant="8" id="GSt-gu-bn7"/>
-                                    <constraint firstItem="CTC-wv-lUI" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="top" constant="68" id="MeD-iZ-HMg"/>
-                                    <constraint firstItem="pdW-Yj-NnK" firstAttribute="centerY" secondItem="CTC-wv-lUI" secondAttribute="centerY" id="goD-vn-aKv"/>
-                                </constraints>
-                            </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.082796506579999998" green="0.12086012209999999" blue="0.1490252316" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="P5e-I9-Cea" firstAttribute="leading" secondItem="sWA-o1-ygx" secondAttribute="leading" id="1e7-Rh-ASd"/>
                             <constraint firstItem="yfL-tH-cPg" firstAttribute="leading" secondItem="sWA-o1-ygx" secondAttribute="leading" id="TcZ-Z2-b5m"/>
                             <constraint firstItem="yfL-tH-cPg" firstAttribute="trailing" secondItem="sWA-o1-ygx" secondAttribute="trailing" id="VZg-AQ-k9h"/>
+                            <constraint firstItem="P5e-I9-Cea" firstAttribute="top" secondItem="yfL-tH-cPg" secondAttribute="bottom" constant="80" id="Y7R-Gf-EGj"/>
+                            <constraint firstItem="P5e-I9-Cea" firstAttribute="trailing" secondItem="sWA-o1-ygx" secondAttribute="trailing" id="goZ-kr-NG8"/>
                             <constraint firstItem="yfL-tH-cPg" firstAttribute="top" secondItem="t78-9D-fIr" secondAttribute="top" id="oP8-jL-XTB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="sWA-o1-ygx"/>
@@ -140,7 +154,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bgRobotMenu" width="700" height="700"/>
+        <image name="cellBackground" width="688" height="1486"/>
         <image name="gear" catalog="system" width="64" height="58"/>
+        <image name="titleBackground" width="1312" height="624"/>
     </resources>
 </document>
