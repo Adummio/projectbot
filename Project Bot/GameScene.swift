@@ -185,6 +185,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let image = UIImage(named: "mainChar") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
+        node.size = CGSize(width: 128, height: 128)
         node.playerSpeed = 1.0
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
@@ -203,6 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
+        node.size = CGSize(width: 128, height: 128)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -220,6 +222,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
+        node.size = CGSize(width: 128, height: 128)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -237,6 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let image = UIImage(named: "enemy") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
+        node.size = CGSize(width: 128, height: 128)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.mass = 0.5
@@ -267,6 +271,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let image = UIImage(named: "bigger") else { return }
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
+        node.size = CGSize(width: 90, height: 90)
         node.physicsBody = SKPhysicsBody(texture: texture, size: node.size)
         node.physicsBody!.affectedByGravity = false
         node.physicsBody?.categoryBitMask = PhysicsCategories.powers.rawValue
@@ -281,24 +286,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func smallerPower(player: SKSpriteNode) {
         self.playSoundEffect(name: "fireball")
         player.physicsBody?.mass = 0.2
-        let scale = SKAction.scale(to: CGSize(width: 32, height: 32), duration: 0.5)
+        let scale = SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5)
         let wait = SKAction.wait(forDuration: 5)
         let seq = SKAction.sequence([scale,wait])
         player.run(seq, completion: {() -> Void in
             player.physicsBody?.mass = 0.5
-            player.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+            player.run(SKAction.scale(to: CGSize(width: 128, height: 128), duration: 0.5))
         })
     }
     
     func biggerPower(player: SKSpriteNode) {
         self.playSoundEffect(name: "fireball")
         player.physicsBody?.mass = 5
-        let scale = SKAction.scale(to: CGSize(width: 200, height: 200), duration: 0.5)
+        let scale = SKAction.scale(to: CGSize(width: 256, height: 256), duration: 0.5)
         let wait = SKAction.wait(forDuration: 5)
         let seq = SKAction.sequence([scale,wait])
         player.run(seq, completion: {() -> Void in
             player.physicsBody?.mass = 0.5
-            player.run(SKAction.scale(to: CGSize(width: 64, height: 64), duration: 0.5))
+            player.run(SKAction.scale(to: CGSize(width: 128, height: 128), duration: 0.5))
         })
     }
     
