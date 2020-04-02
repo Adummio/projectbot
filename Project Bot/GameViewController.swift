@@ -28,7 +28,7 @@ class GameViewController: UIViewController {
     func startScene() {
         let scene = GameScene(size: CGSize(width: 1536, height: 2048))
         //        let scene = GameScene(size: self.view.bounds.size)
-        scene.backgroundColor = .black
+        scene.backgroundColor = UIColor(red:0.04, green:0.08, blue:0.18, alpha:1.00)
         scene.scaleMode = .aspectFill
         
         // Present the scene

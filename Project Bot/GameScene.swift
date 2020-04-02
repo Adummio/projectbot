@@ -42,7 +42,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Arena
     var arena: SKShapeNode?
-    let arenaRadius: CGFloat = 700.0
+    let arenaRadius: CGFloat = 1000.0
     var circle = SKShapeNode()
     
     // Animations
@@ -91,13 +91,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
         
         view.isMultipleTouchEnabled = true
-        addBackground()
+//        addBackground()
         addResultLabel()
         addJoystick()
         addPlayer1(atPosition: CGPoint(x: frame.midX-400, y: frame.midY-400))
         addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
-//        addPlayer3(atPosition: CGPoint(x: frame.midX+400, y: frame.midY+400))
-//        addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
+        addPlayer3(atPosition: CGPoint(x: frame.midX+400, y: frame.midY+400))
+        addPlayer4(atPosition: CGPoint(x: frame.midX+400, y: frame.midY-400))
         addCircle()
         randomPowerSpawn()
         //        debugPlayableArea()
@@ -251,9 +251,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addCircle() {
+        let texture : SKTexture! = SKTexture.init(imageNamed:"arena")
         self.circle = SKShapeNode(circleOfRadius: arenaRadius)
         circle.position = CGPoint(x: frame.midX, y: frame.midY)
         circle.fillColor = .lightGray
+        circle.fillTexture = texture
         circle.glowWidth = 1.0
         circle.strokeColor = .black
         circle.zPosition = 0
