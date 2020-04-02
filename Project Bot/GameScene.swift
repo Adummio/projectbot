@@ -306,14 +306,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.playSoundEffect(name: "fireball")
         
         let fast = SKAction.run {
-            player.playerSpeed = 4
+            player.playerSpeed = player.playerSpeed*1.5
         }
-        let wait = SKAction.wait(forDuration: 1.5)
+        let wait = SKAction.wait(forDuration: 3)
         let seq = SKAction.sequence([fast,wait])
         player.run(seq, completion: {() -> Void in
-            player.run(SKAction.run {
-               player.playerSpeed = 3
-            })
+            player.playerSpeed = player.playerSpeed/1.5
         })
     }
     
@@ -390,7 +388,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case 2:
                 smallerPower(player: player)
             case 3:
-//                fasterPower(player: player)
+                fasterPower(player: player)
                 print("faster")
             default:
                 print("error")
@@ -399,10 +397,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch collision{
         case PhysicsCategories.player1.rawValue | PhysicsCategories.powers.rawValue:
-            choosePower(player: player1!)
+//            choosePower(player: player1!)
+            fasterPower(player: player1!)
             power?.removeFromParent()
         case PhysicsCategories.player2.rawValue | PhysicsCategories.powers.rawValue:
-            choosePower(player: player2!)
+//            choosePower(player: player2!)
+            fasterPower(player: player2!)
             power?.removeFromParent()
         case PhysicsCategories.player3.rawValue | PhysicsCategories.powers.rawValue:
             choosePower(player: player3!)
@@ -482,7 +482,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if player1.isPushing && player2.isPushing{
             return
         }else if player1.isPushing{
-            let rotation = player1.zRotation
+            let rotation = player2.zRotation
             let xComponent = -sin(rotation)
             let yComponent = cos(rotation)
             let vector = CGVector(dx: (xComponent)*100, dy: 100*(yComponent))
@@ -490,7 +490,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             push.timingMode = .easeInEaseOut
             player2.run(push)
         }else if player2.isPushing{
-            let rotation = player2.zRotation
+            let rotation = player1.zRotation
             let xComponent = -sin(rotation)*100
             let yComponent = cos(rotation)*100
             let vector = CGVector(dx: xComponent, dy: yComponent)
