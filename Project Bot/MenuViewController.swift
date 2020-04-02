@@ -39,7 +39,6 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
             backgroundMusic?.numberOfLoops = -1
         } catch {
         
-            
         }
     }
     
@@ -86,6 +85,18 @@ class MenuViewController: UIViewController, UICollectionViewDelegate, UICollecti
              else { fatalError("Failed to get mesh from asset.") }
 
         let newNode  = SCNNode(mdlObject: object)
+        
+        if arrayRobot[indexPath.row].model == "robotBlue" {
+            for material in newNode.geometry!.materials {
+                material.diffuse.contents = UIColor.blue
+                material.metalness.contents = 1
+                material.roughness.contents = UIColor.black
+            }
+        } else {
+            newNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+            newNode.geometry?.firstMaterial?.metalness.contents = 1
+            newNode.geometry?.firstMaterial?.roughness.contents = UIColor.black
+        }
         
         newNode.scale = SCNVector3Make(0.07, 0.07, 0.07)
         newNode.position = SCNVector3Make(0, -0.4, 0)
