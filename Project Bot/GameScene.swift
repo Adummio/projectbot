@@ -300,6 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    
     // NOT FULLY FUNCTIONAL YET
     func fasterPower(player: Player) {
         self.playSoundEffect(name: "fireball")
