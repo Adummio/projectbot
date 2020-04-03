@@ -15,12 +15,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="sW8-Vf-gpP">
-                                <rect key="frame" x="-199" y="213" width="813" height="470"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="sW8-Vf-gpP">
+                                <rect key="frame" x="0.0" y="213" width="420" height="470"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="sW8-Vf-gpP" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="3Cs-tz-8mD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sW8-Vf-gpP" secondAttribute="trailing" constant="-26" id="L3Q-qp-HJg"/>
+                            <constraint firstItem="sW8-Vf-gpP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="169" id="PUf-qj-y7s"/>
+                            <constraint firstItem="sW8-Vf-gpP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ym1-Fh-ccx"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -30,6 +35,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="2560" height="2000"/>
+        <image name="logo" width="1790" height="801"/>
     </resources>
 </document>
