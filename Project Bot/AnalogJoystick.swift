@@ -222,6 +222,11 @@ open class AnalogJoystick: SKNode {
                 displayLink.add(to: .current, forMode: loopMode)
                 runEvent(.begin)
                 self.playSoundEffect(name: "fdtractor")
+
+                guard let gameScene = scene as? GameScene else { return }
+
+                gameScene.player1?.run(SKAction.repeatForever(SKAction.animate(with: gameScene.textureArrayMain, timePerFrame: 0.1)))
+                
             } else {
                 displayLink.remove(from: .current, forMode: loopMode)
                 runEvent(.end)

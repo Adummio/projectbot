@@ -16,12 +16,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Camera
     var cameraNode = SKCameraNode()
     
+    // Texture Atlas
+    var textureAtlas = SKTextureAtlas()
+    var textureArrayEnemy = [SKTexture]()
+    var textureArrayMain = [SKTexture]()
+    
     // Sound
     var soundEffect: AVAudioPlayer?
     
     // Players & Movement
     var isDead = false
-    var player1 : Player?
+    public var player1 : Player?
     var player2 : Player?
     var player3 : Player?
     var player4 : Player?
@@ -84,6 +89,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         playBackgroundMusic()
+        
+        textureAtlas = SKTextureAtlas(named: "ImagesEnemy")
+        for texture in 1...textureAtlas.textureNames.count {
+            let name = "enemy\(texture).png"
+            textureArrayEnemy.append(SKTexture(imageNamed: name))
+        }
+        
+        textureAtlas = SKTextureAtlas(named: "ImagesMainChar")
+        for texture in 1...textureAtlas.textureNames.count {
+            let name = "mainChar\(texture).png"
+            textureArrayMain.append(SKTexture(imageNamed: name))
+        }
         
         physicsWorld.contactDelegate = self
         addChild(cameraNode)
@@ -182,7 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addPlayer1(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "mainChar") else { return }
+        guard let image = UIImage(named: "mainChar1") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
         node.size = CGSize(width: 128, height: 128)
@@ -201,7 +218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addPlayer2(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "enemy") else { return }
+        guard let image = UIImage(named: "enemy1") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
         node.size = CGSize(width: 128, height: 128)
@@ -215,11 +232,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.zPosition = 1
         addChild(node)
         player2 = node
+        player2?.run(SKAction.repeatForever(SKAction.animate(with: textureArrayEnemy, timePerFrame: 0.1)))
+
         alivePlayers.append(node)
     }
     
     func addPlayer3(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "enemy") else { return }
+        guard let image = UIImage(named: "enemy1") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
         node.size = CGSize(width: 128, height: 128)
@@ -233,11 +252,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.zPosition = 1
         addChild(node)
         player3 = node
+        player3?.run(SKAction.repeatForever(SKAction.animate(with: textureArrayEnemy, timePerFrame: 0.1)))
+
         alivePlayers.append(node)
     }
     
     func addPlayer4(atPosition position: CGPoint) {
-        guard let image = UIImage(named: "enemy") else { return }
+        guard let image = UIImage(named: "enemy1") else { return }
         let texture = SKTexture(image: image)
         let node = Player(texture: texture)
         node.size = CGSize(width: 128, height: 128)
@@ -251,6 +272,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.zPosition = 1
         addChild(node)
         player4 = node
+        player4?.run(SKAction.repeatForever(SKAction.animate(with: textureArrayEnemy, timePerFrame: 0.1)))
+
         alivePlayers.append(node)
     }
     

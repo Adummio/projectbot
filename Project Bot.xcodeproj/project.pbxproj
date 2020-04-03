@@ -27,6 +27,8 @@
 		650A3654242A658600AB43BE /* Project_BotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A3653242A658600AB43BE /* Project_BotTests.swift */; };
 		650A365F242A658600AB43BE /* Project_BotUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650A365E242A658600AB43BE /* Project_BotUITests.swift */; };
 		65DA693A242A736B00BAAFE2 /* AnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6939242A736B00BAAFE2 /* AnalogJoystick.swift */; };
+		EA9A030D2436B14B00463AB8 /* ImagesEnemy.atlas in Resources */ = {isa = PBXBuildFile; fileRef = EA9A030C2436B14A00463AB8 /* ImagesEnemy.atlas */; };
+		EA9A03102436C05500463AB8 /* ImagesMainChar.atlas in Resources */ = {isa = PBXBuildFile; fileRef = EA9A030F2436C05500463AB8 /* ImagesMainChar.atlas */; };
 		EAFC350E2432337B000D4F98 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFC350D2432337B000D4F98 /* MenuViewController.swift */; };
 		EAFC3511243234EF000D4F98 /* 3DRobotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFC3510243234EF000D4F98 /* 3DRobotCell.swift */; };
 		EAFC351424323657000D4F98 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFC351324323657000D4F98 /* Robot.swift */; };
@@ -77,6 +79,8 @@
 		650A365E242A658600AB43BE /* Project_BotUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_BotUITests.swift; sourceTree = "<group>"; };
 		650A3660242A658600AB43BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65DA6939242A736B00BAAFE2 /* AnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogJoystick.swift; sourceTree = "<group>"; };
+		EA9A030C2436B14A00463AB8 /* ImagesEnemy.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ImagesEnemy.atlas; sourceTree = "<group>"; };
+		EA9A030F2436C05500463AB8 /* ImagesMainChar.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ImagesMainChar.atlas; sourceTree = "<group>"; };
 		EAFC350D2432337B000D4F98 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		EAFC3510243234EF000D4F98 /* 3DRobotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DRobotCell.swift; sourceTree = "<group>"; };
 		EAFC351324323657000D4F98 /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
@@ -138,6 +142,8 @@
 				650A363E242A658500AB43BE /* GameScene.swift */,
 				650A3640242A658500AB43BE /* GameViewController.swift */,
 				EAFC350D2432337B000D4F98 /* MenuViewController.swift */,
+				EA9A030F2436C05500463AB8 /* ImagesMainChar.atlas */,
+				EA9A030C2436B14A00463AB8 /* ImagesEnemy.atlas */,
 				EAFC351524323C73000D4F98 /* art.scnassets */,
 				1D3A8B1424365F6D00EC7E8A /* Main.storyboard */,
 				650A3645242A658500AB43BE /* Assets.xcassets */,
@@ -304,12 +310,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA9A03102436C05500463AB8 /* ImagesMainChar.atlas in Resources */,
 				1D3A8B2324365FC500EC7E8A /* crowd-groan.mp3 in Resources */,
 				1D3A8B2924365FC500EC7E8A /* crowdApplause.mp3 in Resources */,
 				1D3A8B2524365FC500EC7E8A /* steamTechSound.mp3 in Resources */,
 				1D3A8B2224365FC500EC7E8A /* Street-Chaos.mp3 in Resources */,
 				1D3A8B2024365FC500EC7E8A /* crowdboo.mp3 in Resources */,
 				1D3A8B2724365FC500EC7E8A /* fdtractor.mp3 in Resources */,
+				EA9A030D2436B14B00463AB8 /* ImagesEnemy.atlas in Resources */,
 				1D3A8B2424365FC500EC7E8A /* fight.mp3 in Resources */,
 				1D3A8B2624365FC500EC7E8A /* intro.mp3 in Resources */,
 				1D3A8B2124365FC500EC7E8A /* fireball.mp3 in Resources */,
