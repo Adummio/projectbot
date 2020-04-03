@@ -12,6 +12,8 @@ import GameplayKit
 
 class GameViewController: UIViewController {
     
+    @IBOutlet weak var imageResult: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +31,7 @@ class GameViewController: UIViewController {
         //        let scene = GameScene(size: self.view.bounds.size)
         scene.backgroundColor = UIColor(red:0.04, green:0.08, blue:0.18, alpha:1.00)
         scene.scaleMode = .aspectFill
+        scene.gameViewController = self
         
         // Present the scene
         if let view = self.view as! SKView? {

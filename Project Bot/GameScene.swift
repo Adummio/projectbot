@@ -16,6 +16,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Camera
     var cameraNode = SKCameraNode()
     
+    // VC
+    var gameViewController : GameViewController!
+    
     // Texture Atlas
     var textureAtlas = SKTextureAtlas()
     var textureArrayEnemy = [SKTexture]()
@@ -41,9 +44,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Upgrades & Downgrades
     var power : SKSpriteNode?
-    
-    // Labels
-    let resultLabel = SKLabelNode(fontNamed:"Helvetica")
     
     // Arena
     var arena: SKShapeNode?
@@ -109,7 +109,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         view.isMultipleTouchEnabled = true
 //        addBackground()
-        addResultLabel()
         addJoystick()
         addPlayer1(atPosition: CGPoint(x: frame.midX-400, y: frame.midY-400))
         addPlayer2(atPosition: CGPoint(x: frame.midX-400, y: frame.midY+400))
@@ -188,14 +187,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(background)
-    }
-    
-    func addResultLabel() {
-        resultLabel.isHidden = true
-        resultLabel.fontSize = 50
-        resultLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        resultLabel.fontColor = UIColor.black
-        addChild(resultLabel)
     }
     
     func addPlayer1(atPosition position: CGPoint) {
@@ -391,8 +382,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 guard let index = self.alivePlayers.firstIndex(of: enemy) else {return}
                 self.alivePlayers.remove(at: index)
                 if self.alivePlayers.isEmpty{
-                    self.resultLabel.text = "You Won"
-                    self.resultLabel.isHidden = false
+                    self.gameViewController.imageResult.image = #imageLiteral(resourceName: "youWinLabel")
+                    self.gameViewController.imageResult.isHidden = false
                     self.scene!.view!.isPaused = true
                     self.playSoundEffect(name: "crowdApplause")
                 }
@@ -466,8 +457,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             self.isDead = true
             player1?.run(fallDown, completion: {() -> Void in
-                self.resultLabel.text = "You Lost"
-                self.resultLabel.isHidden = false
+                self.gameViewController.imageResult.image = #imageLiteral(resourceName: "youLoseLabel")
+                self.gameViewController.imageResult.isHidden = false
                 self.player1!.isHidden = true
                 self.player1?.removeFromParent()
                 self.scene!.view!.isPaused = true
