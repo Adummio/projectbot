@@ -84,8 +84,11 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="339" height="578"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </sceneKitView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-6F-S4c">
-                                                    <rect key="frame" x="102" y="525" width="135" height="45"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name robot" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-6F-S4c">
+                                                    <rect key="frame" x="8" y="512" width="323" height="58"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="58" id="U8e-d7-Ea1"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Rockwell-Regular" family="Rockwell" pointSize="23"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -95,10 +98,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="P4m-og-zSN" secondAttribute="trailing" id="1F1-kK-w4b"/>
                                                 <constraint firstAttribute="bottom" secondItem="P4m-og-zSN" secondAttribute="bottom" id="4tb-49-GXz"/>
                                                 <constraint firstAttribute="trailing" secondItem="vbH-Jv-Uay" secondAttribute="trailing" id="CKN-im-0jB"/>
-                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="8" id="Nff-CT-p1n"/>
                                                 <constraint firstItem="vbH-Jv-Uay" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="OYJ-Kp-Kze"/>
-                                                <constraint firstItem="zsn-6F-S4c" firstAttribute="centerX" secondItem="5NB-KH-ttf" secondAttribute="centerX" id="OYk-ZF-kOd"/>
                                                 <constraint firstItem="P4m-og-zSN" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="OfR-Uh-e8y"/>
+                                                <constraint firstItem="zsn-6F-S4c" firstAttribute="bottom" secondItem="5NB-KH-ttf" secondAttribute="bottomMargin" id="bZ1-IX-yY9"/>
+                                                <constraint firstItem="zsn-6F-S4c" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leadingMargin" id="hQW-f9-Vop"/>
+                                                <constraint firstItem="zsn-6F-S4c" firstAttribute="centerX" secondItem="vbH-Jv-Uay" secondAttribute="centerX" id="vbg-qq-OK5"/>
                                                 <constraint firstItem="P4m-og-zSN" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="wb4-mp-nkb"/>
                                                 <constraint firstItem="vbH-Jv-Uay" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="xcJ-3M-Ylw"/>
                                                 <constraint firstAttribute="bottom" secondItem="vbH-Jv-Uay" secondAttribute="bottom" id="xqR-MI-9jp"/>
