@@ -85,7 +85,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </sceneKitView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name robot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-6F-S4c">
-                                                    <rect key="frame" x="102" y="525" width="135" height="32"/>
+                                                    <rect key="frame" x="102" y="525" width="135" height="45"/>
                                                     <fontDescription key="fontDescription" name="Rockwell-Regular" family="Rockwell" pointSize="23"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -95,7 +95,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="P4m-og-zSN" secondAttribute="trailing" id="1F1-kK-w4b"/>
                                                 <constraint firstAttribute="bottom" secondItem="P4m-og-zSN" secondAttribute="bottom" id="4tb-49-GXz"/>
                                                 <constraint firstAttribute="trailing" secondItem="vbH-Jv-Uay" secondAttribute="trailing" id="CKN-im-0jB"/>
-                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="21" id="Nff-CT-p1n"/>
+                                                <constraint firstAttribute="bottom" secondItem="zsn-6F-S4c" secondAttribute="bottom" constant="8" id="Nff-CT-p1n"/>
                                                 <constraint firstItem="vbH-Jv-Uay" firstAttribute="top" secondItem="5NB-KH-ttf" secondAttribute="top" id="OYJ-Kp-Kze"/>
                                                 <constraint firstItem="zsn-6F-S4c" firstAttribute="centerX" secondItem="5NB-KH-ttf" secondAttribute="centerX" id="OYk-ZF-kOd"/>
                                                 <constraint firstItem="P4m-og-zSN" firstAttribute="leading" secondItem="5NB-KH-ttf" secondAttribute="leading" id="OfR-Uh-e8y"/>
